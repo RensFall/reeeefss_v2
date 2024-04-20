@@ -4,7 +4,6 @@ import 'package:latlong2/latlong.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:reefs_nav/core/services/fetch_location.dart';
 import 'package:reefs_nav/core/services/tileManager/TileProviderModel.dart';
-import 'package:reefs_nav/core/services/tileManager/store_tiles.dart';
 import 'package:reefs_nav/core/services/tileManager/cached_network_tiles.dart';
 
 class MapPage extends StatefulWidget {
@@ -15,17 +14,22 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   late MapController mapController;
-  late TileManager tileManager;
   late TileProviderModel tileProviderModel;
   LatLng? currentLocation;
+  List<LatLng> points = []; // this will store the points of interest
 
   @override
   void initState() {
     super.initState();
     mapController = MapController();
-    //tileManager = TileManager();
-    // tileProviderModel = Provider.of<TileProviderModel>(context, listen: false);
+
     _fetchCurrentLocation();
+  }
+
+  void _addPoint(LatLng point) {
+    setState(() {
+      points.add(point);
+    });
   }
 
   void _fetchCurrentLocation() async {
@@ -47,10 +51,20 @@ class _MapPageState extends State<MapPage> {
       body: FlutterMap(
         mapController: mapController,
         options: MapOptions(
-          initialCenter: currentLocation ??
-              LatLng(21.54, 39.16), // Initial center of the map
-          initialZoom: 15.0, // Initial zoom level
-        ), // MapOptions
+          initialCenter: currentLocation ?? const LatLng(22.75, 38.98),
+          initialZoom: 12.0,
+          minZoom: 5.0,
+          maxZoom: 22,
+          initialCameraFit: CameraFit.bounds(
+            bounds: LatLngBounds(
+              const LatLng(-85.0, -180.0),
+              const LatLng(85.0, 180.0),
+            ),
+            // padding: EdgeInsets.all(8.0),
+          ),
+
+          onTap: (_, latlng) => _addPoint(latlng), // add point on tap.
+        ),
         children: [
           TileLayer(
             tileProvider: CachedNetworkTileProvider(
@@ -62,38 +76,17 @@ class _MapPageState extends State<MapPage> {
                   'pk.eyJ1IjoieW9yaGFldGhlciIsImEiOiJjbHJ4ZjI4ajQwdXZ6Mmp0a3pzZmlxaTloIn0.yiGEwb2lvrqZRFB1QixSYw',
               'id': 'yorhaether.6vwpkduq',
             },
-            // tileProvider: localTileProvider,
           ),
           MarkerLayer(
-            markers: [
-              Marker(
-                width: 48.0,
-                height: 48.0,
-                point: currentLocation ?? const LatLng(20.0, 38.0),
-                child: Container(
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Container(
-                        width: 24.0,
-                        height: 24.0,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle, color: Colors.white),
-                      ),
-                      Container(
-                        width: 18.0,
-                        height: 18.0,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.blue,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
+            markers: _buildMarkers(),
           ),
+          PolylineLayer(polylines: [
+            Polyline(
+              points: points,
+              strokeWidth: 4.0,
+              color: Colors.blue,
+            )
+          ])
         ],
       ),
       floatingActionButton: Container(
@@ -111,6 +104,85 @@ class _MapPageState extends State<MapPage> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+    );
+  }
+
+  List<Marker> _buildMarkers() {
+    List<Marker> allMarkers = [];
+
+    // Marker for the current location, if it exists
+    if (currentLocation != null) {
+      allMarkers.add(Marker(
+        width: 48.0,
+        height: 48.0,
+        point: currentLocation!,
+        child: Container(
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Container(
+                width: 24.0,
+                height: 24.0,
+                decoration: const BoxDecoration(
+                    shape: BoxShape.circle, color: Colors.white),
+              ),
+              Container(
+                width: 18.0,
+                height: 18.0,
+                decoration: const BoxDecoration(
+                    shape: BoxShape.circle, color: Colors.blue),
+              ),
+            ],
+          ),
+        ),
+      ));
+    }
+
+    // Markers for all other points
+    for (LatLng point in points) {
+      allMarkers.add(Marker(
+        width: 80.0,
+        height: 80.0,
+        point: point,
+        child: GestureDetector(
+          onTap: () {
+            _confirmPointDeletion(point);
+          },
+          child: const Icon(Icons.location_on, color: Colors.red, size: 48.0),
+        ),
+      ));
+    }
+
+    return allMarkers;
+  }
+
+  void _confirmPointDeletion(LatLng point) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          surfaceTintColor: Colors.white,
+          title: const Text("Confirm Deletion"),
+          content: const Text("Do you want to remove this marker?"),
+          actions: <Widget>[
+            TextButton(
+              child: const Text("Cancel"),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+            TextButton(
+              child: const Text("Delete"),
+              onPressed: () {
+                setState(() {
+                  points.remove(point); // Remove the point from the list
+                  Navigator.of(context).pop(); // Close the dialog
+                });
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

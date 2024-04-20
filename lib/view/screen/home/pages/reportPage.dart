@@ -15,7 +15,8 @@ class _ReportScreenState extends State<ReportScreen> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      backgroundColor: Colors.black,
+      surfaceTintColor: Colors.white,
+      //backgroundColor: Colors.black,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
@@ -26,7 +27,7 @@ class _ReportScreenState extends State<ReportScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text('Report Problem',
-                style: TextStyle(fontSize: 18, color: Colors.white)),
+                style: TextStyle(fontSize: 18, color: Colors.black)),
             const SizedBox(height: 16),
             FutureBuilder<String>(
               future: _getLocation(),
@@ -34,7 +35,7 @@ class _ReportScreenState extends State<ReportScreen> {
                 if (snapshot.hasData) {
                   return Text(
                     'Location: ${snapshot.data}',
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: Colors.black),
                   );
                 } else if (snapshot.hasError) {
                   return const Text('Failed to get location');
@@ -45,9 +46,9 @@ class _ReportScreenState extends State<ReportScreen> {
             ),
             const SizedBox(height: 16),
             const Text('Select a problem:',
-                style: TextStyle(color: Colors.white)),
+                style: TextStyle(color: Colors.black)),
             DropdownButton<String>(
-              iconEnabledColor: Colors.grey,
+              iconEnabledColor: Colors.black,
               value: selectedProblem,
               onChanged: (String? newValue) {
                 setState(() {
@@ -61,7 +62,7 @@ class _ReportScreenState extends State<ReportScreen> {
               ].map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
-                  child: Text(value, style: TextStyle(color: Colors.grey)),
+                  child: Text(value, style: TextStyle(color: Colors.black)),
                 );
               }).toList(),
             ),
@@ -72,16 +73,16 @@ class _ReportScreenState extends State<ReportScreen> {
                 TextButton(
                   child: const Text(
                     'Cancel',
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: Colors.black),
                   ),
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    Navigator.of(context, rootNavigator: true).pop();
                   },
                 ),
                 TextButton(
                   child: const Text('Send Report',
-                      style: TextStyle(color: Colors.white)),
-                  onPressed: () {
+                      style: TextStyle(color: Colors.black)),
+                  onPressed: () async {
                     sendReport(selectedProblem);
                     Fluttertoast.showToast(
                       msg: 'Location and message sent successfully!',
@@ -90,7 +91,7 @@ class _ReportScreenState extends State<ReportScreen> {
                       backgroundColor: Colors.green,
                       textColor: Colors.white,
                     );
-                    Navigator.of(context).pop();
+                    Navigator.of(context, rootNavigator: true).pop();
                   },
                 ),
               ],

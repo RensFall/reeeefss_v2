@@ -1,7 +1,3 @@
-//!!!!!!!!!!
-// do not modify or change anything of this file, I'm not done with it yet.
-// -Ether
-//!!!!!!!!!!
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
