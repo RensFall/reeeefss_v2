@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "624360880066",
+    "project_id": "reefs-nav",
+    "storage_bucket": "reefs-nav.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:624360880066:android:15a0656bfc93fe414f085b",
+        "android_client_info": {
+          "package_name": "com.example.reefs_nav"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJDqVJuhcgTV35o7OTxLDKcl9fHETJCck"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

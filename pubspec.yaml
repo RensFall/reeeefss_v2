@@ -1,0 +1,110 @@
+name: reefs_nav
+description: A new Flutter project.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.1.5 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.2
+  get: ^4.6.1
+
+  # DateTime
+  jiffy: ^6.2.1
+  intl: ^0.18.0
+  http: ^1.1.0
+
+  # Images
+  image_picker: ^1.0.5
+
+  # Animate
+  show_up_animation: ^2.0.0
+  auto_animated: ^3.0.1
+
+  #Map
+
+  flutter_map: ^6.1.0
+  flutter_map_tile_caching: ^9.0.0-dev.5
+  geolocator: ^11.0.0
+  http_interceptor: ^2.0.0-beta.8
+  latlong2: ^0.9.0
+  path_provider: ^2.1.2
+  rolling_bottom_bar: ^0.2.2
+  provider: ^6.1.1
+
+  # Firebase And Notification 
+  firebase_messaging: ^14.7.15
+  firebase_core: ^2.25.4
+  flutter_local_notifications: ^16.2.0
+  cloud_firestore: ^4.13.6
+  firebase_storage: ^11.6.6
+  firebase_auth: ^4.17.4
+  flutter_otp_text_field: ^1.0.1
+  file_picker: ^6.1.1
+
+  # Local Data Cache
+  sqflite: ^2.0.2
+  shared_preferences: ^2.0.15
+  path: ^1.8.3
+  cached_network_image: ^3.3.1
+
+
+  # Google Auth
+  google_sign_in: ^6.2.1  
+  device_preview: ^1.1.0
+  responsive_builder: ^0.7.0
+  image_pickers: ^2.0.0+2
+  awesome_dialog: ^3.2.0
+  connectivity_plus: ^5.0.2
+  mailer: ^6.1.0
+  fluttertoast: ^8.2.4
+  flutter_email_sender: ^6.0.2
+
+
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.1
+
+# The following section is specific to Flutter packages.
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+     - assets/images/
+    
+
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/assets-and-images/#resolution-aware
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/assets-and-images/#from-packages
+
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font. For
+  # example:
+  #fonts:
+  #   - family: Cairo
+  #     fonts:
+   #      - asset: fonts/Cairo-Regular.ttf
+   #      - asset: fonts/Cairo-Bold.ttf
+   #        weight: 700
+  
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/custom-fonts/#from-packages
