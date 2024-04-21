@@ -1,5 +1,6 @@
 import 'package:flutter_map/flutter_map.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:reefs_nav/core/services/tileManager/map_cache_manger.dart';
 import 'package:flutter/material.dart';
 
 class CachedNetworkTileProvider extends TileProvider {
@@ -11,7 +12,7 @@ class CachedNetworkTileProvider extends TileProvider {
   ImageProvider getImage(TileCoordinates coordinates, TileLayer options) {
     debugPrint("Cached Network Tile Provider is running");
     var url = _getTileUrl(coordinates, options);
-    return CachedNetworkImageProvider(url);
+    return CachedNetworkImageProvider(url, cacheManager: ImageCacheManager());
   }
 
   String _getTileUrl(TileCoordinates coords, TileLayer options) {

@@ -66,6 +66,7 @@ dependencies:
   mailer: ^6.1.0
   fluttertoast: ^8.2.4
   flutter_email_sender: ^6.0.2
+  flutter_cache_manager: ^3.3.1
 
 
 

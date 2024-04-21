@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import 'package:reefs_nav/view/widget/navigation/NavBar.dart';
 import 'package:reefs_nav/view/screen/home/pages/profile/update_profile.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -27,7 +26,6 @@ class ProfileScreen extends StatelessWidget {
     String currentUserId = user.uid;
 
     return Scaffold(
-      endDrawer: NavBar(),
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       appBar: AppBar(
         title: Text('28'.tr),
