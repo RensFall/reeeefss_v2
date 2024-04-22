@@ -30,6 +30,7 @@ class AuthService extends ChangeNotifier {
     String email,
     String password,
     String userName,
+    String fuel,
   ) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
@@ -56,6 +57,7 @@ class AuthService extends ChangeNotifier {
             'password': password,
             'createAte': DateTime.now().millisecondsSinceEpoch.toString(),
             'email': email,
+            'fuel': fuel,
           });
         }
       }
@@ -88,5 +90,41 @@ class AuthService extends ChangeNotifier {
     final snapshot = await db.collection('users').get();
     final userData = snapshot.docs.map((e) => UserModel.fromSnapShot(e)).single;
     return userData;
+  }
+
+  Future<double?> getFuel() async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user = auth.currentUser;
+
+    if (user != null) {
+      FirebaseFirestore db = FirebaseFirestore.instance;
+      DocumentSnapshot snapshot =
+          await db.collection('users').doc(user.uid).get();
+
+      if (snapshot.exists) {
+        Map<String, dynamic> userData = snapshot.data() as Map<String, dynamic>;
+        dynamic fuelData = userData['fuel'];
+
+        if (fuelData is double) {
+          // If 'fuel' field is already a double, return it directly
+          return fuelData;
+        } else if (fuelData is String) {
+          // If 'fuel' field is a String, parse it to double
+          try {
+            return double.parse(fuelData);
+          } catch (e) {
+            print('Error parsing fuel data: $e');
+            return null;
+          }
+        } else {
+          print('Unknown data type for fuel field: $fuelData');
+          return null;
+        }
+      } else {
+        return null; // Handle case when user document doesn't exist
+      }
+    } else {
+      return null; // Handle case when user is not logged in
+    }
   }
 }

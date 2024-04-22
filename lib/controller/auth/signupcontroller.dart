@@ -12,6 +12,7 @@ class SignUpControllerImp extends SignUpController {
   late TextEditingController email;
   late TextEditingController password;
   late TextEditingController confirmpass;
+  late TextEditingController fuel;
 
   @override
   goToLogin() {
@@ -29,6 +30,7 @@ class SignUpControllerImp extends SignUpController {
     email = TextEditingController();
     password = TextEditingController();
     confirmpass = TextEditingController();
+    fuel = TextEditingController();
 
     super.onInit();
   }
@@ -39,26 +41,7 @@ class SignUpControllerImp extends SignUpController {
     email = TextEditingController();
     password = TextEditingController();
     confirmpass = TextEditingController();
+    fuel = TextEditingController();
     super.dispose();
   }
-
-  // Future<void> signUpWithCred() async {
-  //   try {
-  //     final credential =
-  //         await FirebaseAuth.instance.createUserWithEmailAndPassword(
-  //       email: email.text,
-  //       password: password.text,
-  //     );
-  //     await FirebaseAuth.instance.currentUser!.sendEmailVerification();
-  //     Get.toNamed(AppRoute.login);
-  //   } on FirebaseAuthException catch (e) {
-  //     if (e.code == 'weak-password') {
-  //       print('The password provided is too weak.');
-  //     } else if (e.code == 'email-already-in-use') {
-  //       print('The account already exists for that email.');
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
 }

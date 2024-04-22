@@ -6,6 +6,7 @@ import 'package:reefs_nav/core/constant/routes.dart';
 import 'package:reefs_nav/core/services/auth_service.dart';
 import '../../../controller/auth/signupcontroller.dart';
 import '../../widget/auth/customebuttonauth.dart';
+import '../../widget/auth/custometextdoubleauth.dart';
 import '../../widget/auth/custometextformauth.dart';
 import '../../widget/auth/textsignup.dart';
 
@@ -58,6 +59,12 @@ class SignUp extends StatelessWidget {
                 iconData: Icons.password_outlined,
                 mycontroller: controllerImp.confirmpass,
               ),
+              CustomeTextFormAuthfuel(
+                hinttext: 'Enter fuel consumption rate',
+                labeltext: 'Fuel Consumption Rate',
+                iconData: Icons.local_gas_station,
+                mycontroller: controllerImp.fuel,
+              ),
               CustomeButtonAuth(
                   //signUp button
                   text: '13'.tr,
@@ -65,7 +72,8 @@ class SignUp extends StatelessWidget {
                     final signUp = await AuthService().signUp(
                         controllerImp.email.text,
                         controllerImp.password.text,
-                        controllerImp.username.text);
+                        controllerImp.username.text,
+                        controllerImp.fuel.text,);
                     if (signUp != null) {
                       Get.toNamed(AppRoute.login);
                     } else {

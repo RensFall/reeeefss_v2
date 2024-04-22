@@ -1,8 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:reefs_nav/core/FuelAlgorithm/fuel.dart';
+import 'package:reefs_nav/core/services/auth_service.dart';
 import 'package:reefs_nav/core/services/fetch_location.dart';
 import 'package:reefs_nav/core/services/tileManager/TileProviderModel.dart';
 import 'package:reefs_nav/core/services/tileManager/cached_network_tiles.dart';
@@ -28,11 +30,51 @@ class _MapPageState extends State<MapPage> {
     _fetchCurrentLocation();
   }
 
-  void _calculateFuelConsumption() {
-    double totalDistanceNm = calculateTotalDistance(points);
-    double consumptionRate =
-        8.0; // Example consumption rate in nautical miles per gallon
-    consumedFuel = totalDistanceNm / consumptionRate;
+  void _calculateFuelConsumption() async {
+    double? consumptionRate = await AuthService().getFuel();
+    if (consumptionRate != null) {
+      double totalDistanceNm = calculateTotalDistance(points);
+      consumedFuel = totalDistanceNm / consumptionRate;
+
+      // Show consumed fuel in a dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Consumed Fuel'),
+            content: Text(
+                'You will consume ${consumedFuel.toStringAsFixed(2)} gallons'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the dialog
+                },
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      // Handle the case when consumption rate is not available
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Error'),
+            content: const Text('Failed to retrieve fuel consumption rate'),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close dialog
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   void _addPoint(LatLng point) {
@@ -52,11 +94,8 @@ class _MapPageState extends State<MapPage> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-    ;
-
     return Scaffold(
       body: FlutterMap(
         mapController: mapController,
@@ -73,7 +112,6 @@ class _MapPageState extends State<MapPage> {
             // padding: EdgeInsets.all(8.0),
           ),
           onTap: (_, latlng) => _addPoint(latlng), // add point on tap.
-         
         ),
         children: [
           TileLayer(
@@ -114,8 +152,6 @@ class _MapPageState extends State<MapPage> {
               color: Colors.white,
               onPressed: () {
                 _calculateFuelConsumption();
-                print(
-                    'Consumed Fuel: ${consumedFuel.toStringAsFixed(2)} gallons');
               },
             ),
           ),
