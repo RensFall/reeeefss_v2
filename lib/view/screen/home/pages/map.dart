@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:reefs_nav/core/FuelAlgorithm/fuel.dart';
 import 'package:reefs_nav/core/services/fetch_location.dart';
 import 'package:reefs_nav/core/services/tileManager/TileProviderModel.dart';
 import 'package:reefs_nav/core/services/tileManager/cached_network_tiles.dart';
@@ -17,6 +18,7 @@ class _MapPageState extends State<MapPage> {
   late TileProviderModel tileProviderModel;
   LatLng? currentLocation;
   List<LatLng> points = []; // this will store the points of interest
+  double consumedFuel = 0.0;
 
   @override
   void initState() {
@@ -24,6 +26,13 @@ class _MapPageState extends State<MapPage> {
     mapController = MapController();
 
     _fetchCurrentLocation();
+  }
+
+  void _calculateFuelConsumption() {
+    double totalDistanceNm = calculateTotalDistance(points);
+    double consumptionRate =
+        8.0; // Example consumption rate in nautical miles per gallon
+    consumedFuel = totalDistanceNm / consumptionRate;
   }
 
   void _addPoint(LatLng point) {
@@ -42,6 +51,7 @@ class _MapPageState extends State<MapPage> {
       });
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -62,8 +72,8 @@ class _MapPageState extends State<MapPage> {
             ),
             // padding: EdgeInsets.all(8.0),
           ),
-
           onTap: (_, latlng) => _addPoint(latlng), // add point on tap.
+         
         ),
         children: [
           TileLayer(
@@ -89,19 +99,42 @@ class _MapPageState extends State<MapPage> {
           ])
         ],
       ),
-      floatingActionButton: Container(
-        margin: const EdgeInsets.only(bottom: 70.0, right: 9.0),
-        decoration: const BoxDecoration(
-          shape: BoxShape.circle,
-          color: Color(0xFF262626),
-        ),
-        child: IconButton(
-          icon: const Icon(Icons.my_location_outlined),
-          color: Colors.white,
-          onPressed: () {
-            _fetchCurrentLocation();
-          },
-        ),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Container(
+            margin: const EdgeInsets.only(bottom: 50.0, right: 9.0),
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: Color(0xFF262626),
+            ),
+            child: IconButton(
+              icon: const Icon(Icons.gas_meter_outlined),
+              color: Colors.white,
+              onPressed: () {
+                _calculateFuelConsumption();
+                print(
+                    'Consumed Fuel: ${consumedFuel.toStringAsFixed(2)} gallons');
+              },
+            ),
+          ),
+          SizedBox(height: 16), // Add space between buttons
+          Container(
+            margin: const EdgeInsets.only(bottom: 70.0, right: 9.0),
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: Color(0xFF262626),
+            ),
+            child: IconButton(
+              icon: const Icon(Icons.my_location_outlined),
+              color: Colors.white,
+              onPressed: () {
+                _fetchCurrentLocation();
+              },
+            ),
+          ),
+        ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
