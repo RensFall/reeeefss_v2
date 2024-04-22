@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:reefs_nav/view/screen/auth/login.dart';
-import 'package:reefs_nav/view/screen/home/pages/reportPage.dart';
 
 class NavBar extends StatefulWidget {
   @override
@@ -9,131 +8,55 @@ class NavBar extends StatefulWidget {
 }
 
 class _NavBarState extends State<NavBar> {
-  bool _isItemExpanded = false;
-  bool _isSettingsExpanded = false;
+  bool _isLanguageExpanded = false;
+  bool _isCacheExpanded = false;
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      //backgroundColor: const Color(0xFF242527),
+      // backgroundColor: const Color(0xFF242527),
       child: ListView(
         children: [
-          ListTile(
-            title: const Text("Reefs"),
-            leading: const Icon(
-              Icons.info_rounded,
-            ),
-            onTap: () {
-              setState(() {
-                _isItemExpanded = !_isItemExpanded;
-              });
-            },
-          ),
-
-          if (_isItemExpanded)
-            ExpansionTile(
-              title: const Text("Geomorphic"),
-              children: [
-                ListTile(
-                  title: const Text("Inner Reef Flat"),
-                  leading: Container(
-                    width: 20,
-                    height: 20,
-                    color: Color(0xFFc5a7cb),
-                  ),
-                  onTap: () {},
-                ),
-                ListTile(
-                  title: const Text("Outer Reef Flat"),
-                  leading: Container(
-                    width: 20,
-                    height: 20,
-                    color: const Color(0xFF92739d),
-                  ),
-                  onTap: () {
-                    // Handle tapping
-                  },
-                ),
-                ListTile(
-                  title: const Text("Reef Crest"),
-                  leading: Container(
-                    width: 20,
-                    height: 20,
-                    color: const Color(0xFF614272),
-                  ),
-                  onTap: () {},
-                ),
-                ListTile(
-                  title: const Text("Shallow Lagoon"),
-                  leading: Container(
-                    width: 20,
-                    height: 20,
-                    color: const Color(0xFF77d0fc),
-                  ),
-                  onTap: () {},
-                ),
-                ListTile(
-                    title: const Text("Sheltered Reef Slope"),
-                    leading: Container(
-                      width: 20,
-                      height: 20,
-                      color: const Color(0xFF10bda6),
-                    ),
-                    onTap: () {}),
-                ListTile(
-                  title: const Text("Terrestrial Reef Flat"),
-                  leading: Container(
-                    width: 20,
-                    height: 20,
-                    color: const Color(0xFFfbdefb),
-                  ),
-                  onTap: () {},
-                ),
-
-                // Add more ListTile widgets as needed
-              ],
-            ),
-          if (_isItemExpanded)
-            ExpansionTile(
-              title: const Text("Reef Extent"),
-              children: [
-                ListTile(
-                  title: const Text("Reef Extent"),
-                  leading: Container(
-                    width: 20,
-                    height: 20,
-                    color: const Color(0xFF980b46),
-                  ),
-                  onTap: () {},
-                ),
-              ],
-            ),
-
           ListTile(
             title: const Text('Settings'),
             leading: const Icon(Icons.settings),
             onTap: () {
               setState(() {
-                _isSettingsExpanded = !_isSettingsExpanded;
+                _isLanguageExpanded = !_isLanguageExpanded;
               });
             },
           ),
-          if (_isSettingsExpanded)
+          if (_isLanguageExpanded)
             ExpansionTile(
               title: const Text('Language'),
               leading: const Icon(Icons.language),
               children: [
                 ListTile(
                   title: const Text('Arabic'),
-                  onTap: () {},
+                  onTap: () {
+                    // Implement language change to Arabic
+                    Get.updateLocale(const Locale('Arabic', ''));
+                  },
                 ),
                 ListTile(
                   title: const Text('English'),
-                  onTap: () {},
+                  onTap: () {
+                    // Implement language change to English
+                    Get.updateLocale(const Locale('English', ''));
+                  },
                 ),
               ],
             ),
-          if (_isSettingsExpanded)
+          ListTile(
+            title: Text('Cache Memory'),
+            leading: const Icon(Icons.memory),
+            onTap: () {
+              setState(() {
+                _isCacheExpanded = !_isCacheExpanded;
+              });
+            },
+          ),
+          if (_isCacheExpanded)
             ExpansionTile(
               title: Text('Cache Memory'),
               children: [
@@ -142,23 +65,6 @@ class _NavBarState extends State<NavBar> {
                   leading: const Icon(Icons.delete),
                   onTap: () {},
                 ),
-              ],
-            ),
-          if (_isSettingsExpanded)
-            ExpansionTile(
-              title: const Text('Help'),
-              leading: const Icon(Icons.help),
-              children: [
-                ListTile(
-                  title: const Text("Report Feedback"),
-                  onTap: () {
-                    //Get.offAll(ReportScreen());
-                    showDialog(
-                      context: context,
-                      builder: (context) => ReportScreen(),
-                    );
-                  },
-                )
               ],
             ),
           const Divider(),
@@ -172,29 +78,9 @@ class _NavBarState extends State<NavBar> {
               },
             ),
           ),
-
           // Icon(Icons.logout),
         ],
       ),
-    );
-  }
-}
-
-class DrawerTrigger extends StatelessWidget {
-  const DrawerTrigger({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      icon: const Icon(
-        Icons.menu,
-        color: Colors.white,
-        size: 30,
-      ),
-      highlightColor: const Color(0xFF262626),
-      onPressed: () {
-        Scaffold.of(context).openEndDrawer();
-      },
     );
   }
 }

@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
+import 'package:reefs_nav/view/screen/home/homepage.dart';
 import 'package:reefs_nav/view/screen/home/pages/profile/update_profile.dart';
+import 'package:reefs_nav/view/widget/navigation/NavBar.dart';
 
 class ProfileScreen extends StatelessWidget {
   static const String profile = 'ProfileScreen';
 
-  const ProfileScreen({super.key});
+  const ProfileScreen({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +28,23 @@ class ProfileScreen extends StatelessWidget {
     String currentUserId = user.uid;
 
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+      endDrawer: NavBar(),
+      // floatingActionButton: const DrawerTrigger(),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       appBar: AppBar(
         title: Text('28'.tr),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back), // Add map icon
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => HomeNavPage(),
+              ),
+            );
+          },
+        ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       body: StreamBuilder<DocumentSnapshot>(
         stream: FirebaseFirestore.instance
             .collection('users')
@@ -54,7 +69,6 @@ class ProfileScreen extends StatelessWidget {
 
           return Center(
             child: Column(
-              //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 30),
