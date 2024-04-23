@@ -43,8 +43,8 @@ class _HomeNavPageState extends State<HomeNavPage> {
             },
           ),
           Positioned(
-            top: 40,
-            left: 300,
+            top: 30,
+            left: 340,
             child: Visibility(
               visible: _currentPageIndex != 1 &&
                   _currentPageIndex != 2, // Show or hide the button
@@ -54,7 +54,7 @@ class _HomeNavPageState extends State<HomeNavPage> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   shape: BoxShape.rectangle,
-                  color: Color.fromARGB(255, 0, 0, 0),
+                  color: Color(0xFF262626),
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

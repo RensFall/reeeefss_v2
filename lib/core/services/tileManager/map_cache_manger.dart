@@ -24,4 +24,8 @@ class ImageCacheManager extends CacheManager {
     var dir = await getTemporaryDirectory();
     return p.join(dir.path, key);
   }
+
+  Future<void> clearCache() async {
+    await emptyCache();
+  }
 }

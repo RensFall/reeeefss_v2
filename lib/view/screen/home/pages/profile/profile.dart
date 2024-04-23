@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:reefs_nav/view/screen/home/homepage.dart';
 import 'package:reefs_nav/view/screen/home/pages/profile/update_profile.dart';
-import 'package:reefs_nav/view/widget/navigation/NavBar.dart';
+import 'package:reefs_nav/view/widget/navigation/nav_bar.dart';
 
 class ProfileScreen extends StatelessWidget {
   static const String profile = 'ProfileScreen';

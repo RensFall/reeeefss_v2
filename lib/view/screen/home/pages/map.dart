@@ -15,7 +15,9 @@ class MapPage extends StatefulWidget {
   _MapPageState createState() => _MapPageState();
 }
 
-class _MapPageState extends State<MapPage> {
+class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   late MapController mapController;
   late TileProviderModel tileProviderModel;
   LatLng? currentLocation;
@@ -96,6 +98,7 @@ class _MapPageState extends State<MapPage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: FlutterMap(
         mapController: mapController,
@@ -142,7 +145,7 @@ class _MapPageState extends State<MapPage> {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Container(
-            margin: const EdgeInsets.only(bottom: 50.0, right: 9.0),
+            margin: const EdgeInsets.only(bottom: 5.0, right: 10.0),
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
               color: Color(0xFF262626),

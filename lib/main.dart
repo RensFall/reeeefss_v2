@@ -15,7 +15,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  
+
   await initialService();
   runApp(
     ChangeNotifierProvider(
@@ -58,7 +58,7 @@ class MyApp extends StatelessWidget {
             fontSize: 14,
           ),
         ),
-        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.amber)
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.purple)
             .copyWith(background: const Color.fromARGB(255, 206, 206, 206)),
       ),
       getPages: routes,

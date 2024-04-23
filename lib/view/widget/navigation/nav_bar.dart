@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:reefs_nav/view/screen/auth/login.dart';
+import 'package:reefs_nav/core/services/tileManager/map_cache_manger.dart';
 
 class NavBar extends StatefulWidget {
   @override
@@ -63,7 +64,24 @@ class _NavBarState extends State<NavBar> {
                 ListTile(
                   title: const Text("Clear Map Cache"),
                   leading: const Icon(Icons.delete),
-                  onTap: () {},
+                  onTap: () async {
+                    await ImageCacheManager().emptyCache();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: const Color(0xFF262626),
+                        content: const Text("Map cache cleared successflly."),
+                        duration: const Duration(milliseconds: 1500),
+                        width: 350,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 50,
+                        ),
+                        behavior: SnackBarBehavior.floating,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
