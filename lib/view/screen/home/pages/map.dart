@@ -1,4 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -17,7 +16,8 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin {
   @override
-  bool get wantKeepAlive => true;
+  bool get wantKeepAlive =>
+      true; // with the help of Dart's Automatic Keep Alive Mixin, the map's state or a marker's state will be keptand saved even when restarting or navigating to other pages across the app.
   late MapController mapController;
   late TileProviderModel tileProviderModel;
   LatLng? currentLocation;
