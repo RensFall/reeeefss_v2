@@ -4,10 +4,10 @@ import 'package:http/http.dart' as http;
 import 'package:location/location.dart';
 
 const String apiKey =
-    '43c44289746763d40ebd7d164fb6de78'; // Replace with your actual API key
+    '43c44289746763d40ebd7d164fb6de78'; 
 const String baseUrl = 'https://api.openweathermap.org/data/2.5';
 
-// A function to fetch weather data from OpenWeatherMap
+
 Future<Map<String, dynamic>> fetchWeatherData(
     double latitude, double longitude) async {
   final url = Uri.parse(
@@ -21,7 +21,7 @@ Future<Map<String, dynamic>> fetchWeatherData(
   }
 }
 
-// Example of a widget that uses the fetchWeatherData function
+
 class WeatherWidget extends StatefulWidget {
   @override
   _WeatherWidgetState createState() => _WeatherWidgetState();
@@ -39,7 +39,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
 
   void fetchData() async {
     setState(() {
-      isLoading = true; // Show loading spinner while fetching data
+      isLoading = true; 
     });
 
     try {
@@ -64,7 +64,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
     } catch (e) {
       debugPrint('Failed to get weather data: $e');
       setState(() {
-        isLoading = false; // Hide loading spinner and handle error
+        isLoading = false; 
       });
     }
   }
