@@ -44,8 +44,8 @@ class _HomeNavPageState extends State<HomeNavPage> {
             },
           ),
           Positioned(
-            top: 30,
-            left: 340,
+            top: 40,
+            left: 300,
             child: Visibility(
               visible: _currentPageIndex != 1 &&
                   _currentPageIndex != 2, // Show or hide the button

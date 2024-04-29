@@ -33,6 +33,7 @@ class ProfileScreen extends StatelessWidget {
       // floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       appBar: AppBar(
         title: Text('28'.tr),
+        centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back), // Add map icon
           onPressed: () {
