@@ -9,6 +9,7 @@ import 'core/localization/translation.dart';
 import 'core/services/tileManager/TileProviderModel.dart';
 import 'routes.dart';
 import 'firebase_options.dart';
+import 'package:reefs_nav/view/screen/home/pages/weather.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

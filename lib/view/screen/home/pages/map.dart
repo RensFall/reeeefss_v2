@@ -7,6 +7,7 @@ import 'package:reefs_nav/core/services/auth_service.dart';
 import 'package:reefs_nav/core/services/fetch_location.dart';
 import 'package:reefs_nav/core/services/tileManager/TileProviderModel.dart';
 import 'package:reefs_nav/core/services/tileManager/cached_network_tiles.dart';
+import 'package:reefs_nav/view/screen/home/pages/weather.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({Key? key}) : super(key: key);
@@ -17,7 +18,7 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive =>
-      true; // with the help of Dart's Automatic Keep Alive Mixin, the map's state or a marker's state will be keptand saved even when restarting or navigating to other pages across the app.
+      true; // with the help of Dart's Automatic Keep Alive Mixin, the map's state or a marker's state will be kept and saved even when restarting or navigating to other pages across the app.
   late MapController mapController;
   late TileProviderModel tileProviderModel;
   LatLng? currentLocation;
@@ -100,44 +101,76 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin {
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      body: FlutterMap(
-        mapController: mapController,
-        options: MapOptions(
-          initialCenter: currentLocation ?? const LatLng(22.75, 38.98),
-          initialZoom: 12.0,
-          minZoom: 5.0,
-          maxZoom: 22,
-          initialCameraFit: CameraFit.bounds(
-            bounds: LatLngBounds(
-              const LatLng(-85.0, -180.0),
-              const LatLng(85.0, 180.0),
-            ),
-            // padding: EdgeInsets.all(8.0),
-          ),
-          onTap: (_, latlng) => _addPoint(latlng), // add point on tap.
-        ),
+      body: Stack(
         children: [
-          TileLayer(
-            tileProvider: CachedNetworkTileProvider(
-                "https://api.mapbox.com/styles/v1/yorhaether/clrnqwwd9006g01peerp97p8m/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoieW9yaGFldGhlciIsImEiOiJjbHJ4ZjI4ajQwdXZ6Mmp0a3pzZmlxaTloIn0.yiGEwb2lvrqZRFB1QixSYw"),
-            urlTemplate:
-                'https://api.mapbox.com/styles/v1/yorhaether/clrnqwwd9006g01peerp97p8m/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoieW9yaGFldGhlciIsImEiOiJjbHJ4ZjI4ajQwdXZ6Mmp0a3pzZmlxaTloIn0.yiGEwb2lvrqZRFB1QixSYw',
-            additionalOptions: const {
-              'accessToken':
-                  'pk.eyJ1IjoieW9yaGFldGhlciIsImEiOiJjbHJ4ZjI4ajQwdXZ6Mmp0a3pzZmlxaTloIn0.yiGEwb2lvrqZRFB1QixSYw',
-              'id': 'yorhaether.6vwpkduq',
-            },
+          FlutterMap(
+            mapController: mapController,
+            options: MapOptions(
+              initialCenter: currentLocation ?? const LatLng(22.75, 38.98),
+              initialZoom: 12.0,
+              minZoom: 5.0,
+              maxZoom: 22,
+              initialCameraFit: CameraFit.bounds(
+                bounds: LatLngBounds(
+                  const LatLng(-85.0, -180.0),
+                  const LatLng(85.0, 180.0),
+                ),
+                // padding: EdgeInsets.all(8.0),
+              ),
+              onTap: (_, latlng) => _addPoint(latlng), // add point on tap.
+            ),
+            children: [
+              TileLayer(
+                tileProvider: CachedNetworkTileProvider(
+                    "https://api.mapbox.com/styles/v1/yorhaether/clrnqwwd9006g01peerp97p8m/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoieW9yaGFldGhlciIsImEiOiJjbHJ4ZjI4ajQwdXZ6Mmp0a3pzZmlxaTloIn0.yiGEwb2lvrqZRFB1QixSYw"),
+                urlTemplate:
+                    'https://api.mapbox.com/styles/v1/yorhaether/clrnqwwd9006g01peerp97p8m/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoieW9yaGFldGhlciIsImEiOiJjbHJ4ZjI4ajQwdXZ6Mmp0a3pzZmlxaTloIn0.yiGEwb2lvrqZRFB1QixSYw',
+                additionalOptions: const {
+                  'accessToken':
+                      'pk.eyJ1IjoieW9yaGFldGhlciIsImEiOiJjbHJ4ZjI4ajQwdXZ6Mmp0a3pzZmlxaTloIn0.yiGEwb2lvrqZRFB1QixSYw',
+                  'id': 'yorhaether.6vwpkduq',
+                },
+              ),
+              MarkerLayer(
+                markers: _buildMarkers(),
+              ),
+              PolylineLayer(polylines: [
+                Polyline(
+                  points: points,
+                  strokeWidth: 4.0,
+                  color: Colors.blue,
+                )
+              ])
+            ],
           ),
-          MarkerLayer(
-            markers: _buildMarkers(),
+          Positioned(
+            top: 3,
+            left: 0,
+            child: SafeArea(
+              left: true,
+              top: true,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: FloatingActionButton(
+                  backgroundColor: const Color(0xFF262626),
+                  onPressed: () {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return WeatherWidget(); // This shows the weather info
+                      },
+                    );
+                  },
+                  materialTapTargetSize: MaterialTapTargetSize.padded,
+                  child: const Icon(
+                    Icons.cloud,
+                    size: 30.0,
+                  ),
+                  heroTag: 'weatherButton',
+                ),
+              ),
+            ),
           ),
-          PolylineLayer(polylines: [
-            Polyline(
-              points: points,
-              strokeWidth: 4.0,
-              color: Colors.blue,
-            )
-          ])
         ],
       ),
       floatingActionButton: Column(

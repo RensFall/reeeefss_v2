@@ -61,7 +61,7 @@ class _HomeNavPageState extends State<HomeNavPage> {
                   children: [
                     IconButton(
                       icon: Icon(Icons.info),
-                      color: Colors.purple,
+                      color: Colors.white,
                       onPressed: () {
                         showDialog(
                           context: context,
@@ -77,7 +77,7 @@ class _HomeNavPageState extends State<HomeNavPage> {
                     ),
                     IconButton(
                       icon: Icon(Icons.not_listed_location_outlined),
-                      color: Colors.purple,
+                      color: Colors.white,
                       onPressed: () {
                         showDialog(
                           context: context,
@@ -102,9 +102,9 @@ class _HomeNavPageState extends State<HomeNavPage> {
         color: const Color(0xFF262626), // the color of the bar
         items: const [
           RollingBottomBarItem(Icons.map,
-              label: 'home', activeColor: Colors.purple),
+              label: 'home', activeColor: Colors.white),
           RollingBottomBarItem(Icons.person,
-              label: 'profile', activeColor: Colors.purple),
+              label: 'profile', activeColor: Colors.white),
         ],
         enableIconRotation: true,
         onTap: (index) {
