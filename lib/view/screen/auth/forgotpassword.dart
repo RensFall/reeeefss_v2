@@ -37,13 +37,13 @@ class ForgetPassword extends StatelessWidget {
               const SizedBox(height: 100),
               CustomeTextFormAuth(
                 //Phone number field
-                hinttext: "5".tr, //enter Phone number
-                labeltext: "4".tr, //Phone number
+                hinttext: "5".tr, //enter email
+                labeltext: "4".tr, //email
                 iconData: Icons.phone_outlined,
                 mycontroller: controller.email,
               ),
               CustomeButtonAuth(
-                  //Verify number button
+                  //Verify email button
                   text: '20'.tr,
                   onPressed: () async {
                     final forgotpassword = await AuthService()

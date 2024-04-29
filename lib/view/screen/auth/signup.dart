@@ -60,8 +60,8 @@ class SignUp extends StatelessWidget {
                 mycontroller: controllerImp.confirmpass,
               ),
               CustomeTextFormAuthfuel(
-                hinttext: 'Enter fuel consumption rate',
-                labeltext: 'Fuel Consumption Rate',
+                hinttext: '86'.tr,
+                labeltext: '87'.tr,
                 iconData: Icons.local_gas_station,
                 mycontroller: controllerImp.fuel,
               ),
@@ -70,15 +70,15 @@ class SignUp extends StatelessWidget {
                   text: '13'.tr,
                   onPressed: () async {
                     final signUp = await AuthService().signUp(
-                        controllerImp.email.text,
-                        controllerImp.password.text,
-                        controllerImp.username.text,
-                        controllerImp.fuel.text,);
+                      controllerImp.email.text,
+                      controllerImp.password.text,
+                      controllerImp.username.text,
+                      controllerImp.fuel.text,
+                    );
                     if (signUp != null) {
                       Get.toNamed(AppRoute.login);
                     } else {
-                      const snackBar = SnackBar(content: Text("Error"));
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      Text("77".tr);
                     }
                   }),
               const SizedBox(

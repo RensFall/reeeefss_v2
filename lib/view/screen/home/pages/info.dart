@@ -11,50 +11,66 @@ class Info extends StatelessWidget {
       ),
       child: Container(
         padding: const EdgeInsets.all(16),
-        child: ListView(
-          shrinkWrap: true,
-          children: [
-            RoundedBoxWidget(
-              color: Colors.pink,
-              size: 40,
-              textBelow: '60'.tr,
-              text: '61'.tr,
-            ),
-            const SizedBox(height: 10),
-            RoundedBoxWidget(
-              color: Colors.cyan,
-              size: 40,
-              textBelow: '62'.tr,
-              text: '61'.tr,
-            ),
-            const SizedBox(height: 10),
-            RoundedBoxWidget(
-              color: const Color.fromRGBO(139, 195, 74, 1),
-              size: 40,
-              textBelow: '63'.tr,
-              text: '64'.tr,
-            ),
-            const SizedBox(height: 10),
-            RoundedBoxWidget(
-              color: Colors.grey,
-              size: 40,
-              textBelow: '65'.tr,
-              text: '66'.tr,
-            ),
-            const SizedBox(height: 30),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text(
-                '67'.tr,
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
+        child: Scrollbar(
+          child: ListView(
+            shrinkWrap: true,
+            children: [
+              RoundedBoxWidget(
+                color: const Color(0xFF92739d), //Outer reef
+                size: 50,
+                textBelow: '60'.tr,
+                text: '61'.tr,
+              ),
+              const SizedBox(height: 15),
+              RoundedBoxWidget(
+                color: const Color(0xFFc5a7cb), //inner reef
+                size: 50,
+                textBelow: '62'.tr,
+                text: '61'.tr,
+              ),
+              const SizedBox(height: 15),
+              RoundedBoxWidget(
+                color: const Color(0xFFfbdefb),
+                size: 50,
+                textBelow: '63'.tr, //Terrestrial reef
+                text: '64'.tr,
+              ),
+              const SizedBox(height: 15),
+              RoundedBoxWidget(
+                color: const Color(0xFF614272),
+                size: 50,
+                textBelow: '65'.tr, //Reef crest
+                text: '66'.tr,
+              ),
+              const SizedBox(height: 15),
+              RoundedBoxWidget(
+                color: const Color(0xFF77d0fc), //Shallow Lagoon
+                size: 50,
+                textBelow: '95'.tr,
+                text: '96'.tr,
+              ),
+              const SizedBox(height: 15),
+              RoundedBoxWidget(
+                color: const Color(0xFF10bda6), //Sheltered reef slope
+                size: 50,
+                textBelow: '97'.tr,
+                text: '98'.tr,
+              ),
+              const SizedBox(height: 30),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  '67'.tr,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -45,37 +45,4 @@ class LoginControllerImp extends LoginController {
   void goToForgetPass() {
     Get.toNamed(AppRoute.forgotpassword);
   }
-
-  // Future<void> LoginWithEmailAndPwd() async {
-  //   try {
-  //     final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-  //       email: email.text,
-  //       password: password.text,
-  //     );
-  //     if (credential.user!.emailVerified) {
-  //       Get.toNamed(AppRoute.homeNavPage);
-  //     } else {
-  //       await FirebaseAuth.instance.currentUser!.sendEmailVerification();
-  //       print("Error ------------------------------------");
-  //     }
-  //   } on FirebaseAuthException catch (e) {
-  //     if (e.code == 'user-not-found') {
-  //       AwesomeDialog(
-  //         context: context, // Using context here
-  //         dialogType: DialogType.info,
-  //         animType: AnimType.rightSlide,
-  //         title: 'Dialog Title',
-  //         desc: 'Dialog description here.............',
-  //       ).show();
-  //     } else if (e.code == 'wrong-password') {
-  //       AwesomeDialog(
-  //         context: context, // Using context here
-  //         dialogType: DialogType.info,
-  //         animType: AnimType.rightSlide,
-  //         title: 'Dialog Title',
-  //         desc: 'ERRRRRRRRROLORRRRRRRRRRRRRRRR',
-  //       ).show();
-  //     }
-  //   }
-  // }
 }

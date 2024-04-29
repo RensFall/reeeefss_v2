@@ -7,12 +7,12 @@ class CustomeTextFormAuthfuel extends StatelessWidget {
   final TextEditingController? mycontroller;
 
   const CustomeTextFormAuthfuel({
-    super.key, // Added Key? key parameter
+    super.key, 
     required this.hinttext,
     required this.labeltext,
     required this.iconData,
     required this.mycontroller,
-  }); // Initialize the superclass constructor with the key parameter
+  }); 
   
   double? getConsumptionRate() {
   String? enteredValue = mycontroller?.text;

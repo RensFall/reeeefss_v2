@@ -2,9 +2,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:reefs_nav/core/Exception_handler/exception_handler.dart';
 import 'package:reefs_nav/core/constant/enum.dart';
 import 'package:reefs_nav/data/data-model/user_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService extends ChangeNotifier {
   Future<User?> signIn(String email, String password) async {
@@ -13,19 +15,24 @@ class AuthService extends ChangeNotifier {
     User? user;
     try {
       UserCredential userCredential = await auth.signInWithEmailAndPassword(
-          email: email, password: password);
+        email: email,
+        password: password,
+      );
       user = userCredential.user;
+
+      // Store authentication state
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('isLoggedIn', true);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        print('No user found for this email');
+        print('89'.tr);
       } else {
-        print('wrong password');
+        print('90'.tr);
       }
     }
     return user;
   }
 
-//aggawffwssddzz
   Future<User?> signUp(
     String email,
     String password,
@@ -37,7 +44,9 @@ class AuthService extends ChangeNotifier {
     User? user;
     try {
       UserCredential userCredential = await auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+        email: email,
+        password: password,
+      );
       user = userCredential.user;
       if (user != null) {
         final QuerySnapshot result = await firebaseFirestore
@@ -63,9 +72,9 @@ class AuthService extends ChangeNotifier {
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        print('The password provided is too weak');
+        print('91'.tr);
       } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for this email');
+        print('92'.tr);
       }
     } catch (e) {
       print(e);
@@ -126,5 +135,11 @@ class AuthService extends ChangeNotifier {
     } else {
       return null; // Handle case when user is not logged in
     }
+  }
+
+  static Future<bool> isLoggedIn() async {
+    final prefs = await SharedPreferences.getInstance();
+    final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+    return isLoggedIn;
   }
 }

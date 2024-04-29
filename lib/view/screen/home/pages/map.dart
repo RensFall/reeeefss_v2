@@ -1,5 +1,8 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:reefs_nav/core/FuelAlgorithm/fuel.dart';
@@ -40,16 +43,22 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin {
       consumedFuel = totalDistanceNm / consumptionRate;
 
       // Show consumed fuel in a dialog
+      // Show consumed fuel in a dialog
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Consumed Fuel'),
+            title: Text(
+              '76'.tr,
+              textAlign: TextAlign.center,
+            ),
             content: Text(
-                'You will consume ${consumedFuel.toStringAsFixed(2)} gallons'),
+                "${'103'.tr} ${consumedFuel.toStringAsFixed(2)} ${'104'.tr}",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 15)),
             actions: <Widget>[
               TextButton(
-                child: Text('OK'),
+                child: Text('73'.tr),
                 onPressed: () {
                   Navigator.of(context).pop(); // Close the dialog
                 },
@@ -64,11 +73,22 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Error'),
-            content: const Text('Failed to retrieve fuel consumption rate'),
+            title: Text(
+              '77'.tr,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
+            ),
+            content: Text(
+              '78'.tr,
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: Colors.blueGrey),
+            ),
             actions: <Widget>[
               TextButton(
-                child: const Text('OK'),
+                child: Text('73'.tr),
                 onPressed: () {
                   Navigator.of(context).pop(); // Close dialog
                 },
@@ -267,17 +287,23 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin {
       builder: (BuildContext context) {
         return AlertDialog(
           surfaceTintColor: Colors.white,
-          title: const Text("Confirm Deletion"),
-          content: const Text("Do you want to remove this marker?"),
+          title: Text(
+            "79".tr,
+            textAlign: TextAlign.center,
+          ),
+          content: Text(
+            "80".tr,
+            textAlign: TextAlign.center,
+          ),
           actions: <Widget>[
             TextButton(
-              child: const Text("Cancel"),
+              child: Text("59".tr),
               onPressed: () {
                 Navigator.of(context).pop(); // Close the dialog
               },
             ),
             TextButton(
-              child: const Text("Delete"),
+              child: Text("23".tr),
               onPressed: () {
                 setState(() {
                   points.remove(point); // Remove the point from the list

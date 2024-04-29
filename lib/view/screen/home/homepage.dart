@@ -1,11 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:reefs_nav/view/screen/home/pages/info.dart';
 import 'package:reefs_nav/view/screen/home/pages/profile/profile.dart';
+import 'package:reefs_nav/view/screen/home/pages/report_page.dart';
 import 'package:rolling_bottom_bar/rolling_bottom_bar.dart';
 import 'package:rolling_bottom_bar/rolling_bottom_bar_item.dart';
 import 'pages/map.dart';
-import 'pages/reportPage.dart';
 
 class HomeNavPage extends StatefulWidget {
   const HomeNavPage({Key? key}) : super(key: key);
@@ -82,7 +83,7 @@ class _HomeNavPageState extends State<HomeNavPage> {
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return ReportScreen();
+                            return ReportPage();
                           },
                         );
                       },
@@ -100,11 +101,11 @@ class _HomeNavPageState extends State<HomeNavPage> {
         flat: true,
         useActiveColorByDefault: false,
         color: const Color(0xFF262626), // the color of the bar
-        items: const [
+        items: [
           RollingBottomBarItem(Icons.map,
-              label: 'home', activeColor: Colors.white),
+              label: '102'.tr, activeColor: Colors.white),
           RollingBottomBarItem(Icons.person,
-              label: 'profile', activeColor: Colors.white),
+              label: '101'.tr, activeColor: Colors.white),
         ],
         enableIconRotation: true,
         onTap: (index) {

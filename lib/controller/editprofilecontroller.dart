@@ -10,12 +10,13 @@ class UpdateForm extends StatefulWidget {
   final String password;
   final String user;
 
-  const UpdateForm(
-      {super.key,
-      required this.username,
-      required this.email,
-      required this.password,
-      required this.user});
+  const UpdateForm({
+    Key? key,
+    required this.username,
+    required this.email,
+    required this.password,
+    required this.user,
+  }) : super(key: key);
 
   @override
   State<UpdateForm> createState() => _UpdateFormState();
@@ -36,10 +37,25 @@ class _UpdateFormState extends State<UpdateForm> {
     super.initState();
   }
 
+  Future<void> updateUser() async {
+    var collection = FirebaseFirestore.instance.collection('users');
+    await collection.doc(widget.user).update({
+      'userName': nameController.text,
+      'email': emailController.text,
+      'password': passwordController.text,
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        const SizedBox(height: 10),
+        const CircleAvatar(
+          radius: 50,
+          backgroundImage: AssetImage("assets/images/icon.jpg"),
+        ),
+        const SizedBox(height: 30),
         CustomeTextFormAuth(
           hinttext: "46".tr,
           labeltext: "45".tr,
@@ -52,24 +68,11 @@ class _UpdateFormState extends State<UpdateForm> {
           iconData: Icons.email_outlined,
           mycontroller: emailController,
         ),
-        CustomeTextFormAuth(
-          hinttext: "7".tr,
-          labeltext: "6".tr,
-          iconData: Icons.password_outlined,
-          mycontroller: passwordController,
-        ),
         CustomeButtonAuth(
           //save button
           text: '47'.tr,
-          onPressed: () {
-            var collection = FirebaseFirestore.instance.collection('users');
-            collection.doc(widget.user).update({
-              'userName': nameController.text,
-              'email': emailController.text,
-              'password':
-                  passwordController.text, // Fix: Retrieve text from controller
-            });
-
+          onPressed: () async {
+            await updateUser();
             Navigator.pop(context);
           },
         ),

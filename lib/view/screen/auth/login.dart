@@ -37,8 +37,9 @@ class Login extends StatelessWidget {
         child: ListView(
           children: [
             const LogoAuth(),
+            const SizedBox(height: 15),
             CustomeTextTitleAuth(text: "2".tr), //welcomeback
-            const SizedBox(height: 29),
+            const SizedBox(height: 20),
             CustomeTextBodyAuth(text: "3".tr), //body intro
             const SizedBox(height: 15),
             CustomeTextFormAuth(
@@ -46,8 +47,9 @@ class Login extends StatelessWidget {
               mycontroller: controllerImp.email,
               hinttext: "9".tr, //enter Email
               labeltext: "8".tr, //Email
-              iconData: Icons.phone_outlined,
+              iconData: Icons.email_outlined,
             ),
+            const SizedBox(height: 10),
             CustomeTextFormAuth(
               //password field
               mycontroller: controllerImp.password,

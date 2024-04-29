@@ -15,11 +15,10 @@ class _NavBarState extends State<NavBar> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      // backgroundColor: const Color(0xFF242527),
       child: ListView(
         children: [
           ListTile(
-            title: const Text('Settings'),
+            title: Text('57'.tr),
             leading: const Icon(Icons.settings),
             onTap: () {
               setState(() {
@@ -29,27 +28,27 @@ class _NavBarState extends State<NavBar> {
           ),
           if (_isLanguageExpanded)
             ExpansionTile(
-              title: const Text('Language'),
+              title: Text('75'.tr),
               leading: const Icon(Icons.language),
               children: [
                 ListTile(
-                  title: const Text('Arabic'),
+                  title: Text('81'.tr),
                   onTap: () {
                     // Implement language change to Arabic
-                    Get.updateLocale(const Locale('Arabic', ''));
+                    Get.updateLocale(Locale('Arabic', ''));
                   },
                 ),
                 ListTile(
-                  title: const Text('English'),
+                  title: Text('82'.tr),
                   onTap: () {
                     // Implement language change to English
-                    Get.updateLocale(const Locale('English', ''));
+                    Get.updateLocale(Locale('English', ''));
                   },
                 ),
               ],
             ),
           ListTile(
-            title: Text('Cache Memory'),
+            title: Text('83'.tr),
             leading: const Icon(Icons.memory),
             onTap: () {
               setState(() {
@@ -59,17 +58,17 @@ class _NavBarState extends State<NavBar> {
           ),
           if (_isCacheExpanded)
             ExpansionTile(
-              title: Text('Cache Memory'),
+              title: Text('83'.tr),
               children: [
                 ListTile(
-                  title: const Text("Clear Map Cache"),
+                  title: Text("84".tr),
                   leading: const Icon(Icons.delete),
                   onTap: () async {
                     await ImageCacheManager().emptyCache();
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         backgroundColor: const Color(0xFF262626),
-                        content: const Text("Map cache cleared successflly."),
+                        content: Text("85".tr),
                         duration: const Duration(milliseconds: 1500),
                         width: 350,
                         padding: const EdgeInsets.symmetric(
@@ -89,7 +88,7 @@ class _NavBarState extends State<NavBar> {
           Align(
             alignment: Alignment.bottomRight,
             child: ListTile(
-              title: const Text("Log Out"),
+              title: Text("26".tr),
               leading: const Icon(Icons.exit_to_app),
               onTap: () {
                 Get.offAll(const Login());

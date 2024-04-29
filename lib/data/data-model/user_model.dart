@@ -39,47 +39,6 @@ class UserModel {
       passWord: data["passWord"],
       photoUrl: data["photoUrl"],
     );
-    // String id = '';
-    // String createAt = '';
-    // String email = '';
-    // String userName = '';
-    // String passWord = '';
-    // String photoUrl = '';
-
-    // try {
-    //   id = doc.get('id');
-    // } catch (e) {
-    //   id = '';
-    // }
-
-    // try {
-    //   createAt = doc.get('createAt');
-    // } catch (e) {
-    //   createAt = '';
-    // }
-
-    // try {
-    //   email = doc.get('email');
-    // } catch (e) {
-    //   email = '';
-    // }
-
-    // try {
-    //   userName = doc.get('userName');
-    // } catch (e) {
-    //   userName = '';
-    // }
-
-    // try {
-    //   passWord = doc.get('passWord');
-    // } catch (e) {
-    //   passWord = '';
-    // }
-
-    // try {
-    //   photoUrl = doc.get('photoUrl');
-    // } catch (e) {
-    //   photoUrl = '';
-    // }
+   
   }
 }
