@@ -55,7 +55,11 @@ class AuthService extends ChangeNotifier {
         password: password,
       );
       user = userCredential.user;
+
       if (user != null) {
+        // Send email verification
+        await user.sendEmailVerification();
+
         final QuerySnapshot result = await firebaseFirestore
             .collection('users')
             .where(
@@ -93,9 +97,8 @@ class AuthService extends ChangeNotifier {
     return user;
   }
 
-//To Check if email is exists or not 
+//To Check if email is exists or not
   Future<bool> checkIfEmailExists(String email) async {
-    
     CollectionReference users = FirebaseFirestore.instance.collection('users');
     try {
       // Query Firestore to check if any document has the given email
@@ -110,7 +113,7 @@ class AuthService extends ChangeNotifier {
     }
   }
 
-//To Send ResetPassword to user  
+//To Send ResetPassword to user
   Future<AuthStatus> forgotPassword(String email) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     AuthStatus _status = AuthStatus.unknown;
@@ -124,53 +127,53 @@ class AuthService extends ChangeNotifier {
   }
 
 //To display User Details in User profile
-    Future<UserModel> getUserDetails(String email, String userName) async {
-      FirebaseFirestore db = FirebaseFirestore.instance;
-      final snapshot = await db.collection('users').get();
-      final userData = snapshot.docs.map((e) => UserModel.fromSnapShot(e)).single;
-      return userData;
-    }
+  Future<UserModel> getUserDetails(String email, String userName) async {
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    final snapshot = await db.collection('users').get();
+    final userData = snapshot.docs.map((e) => UserModel.fromSnapShot(e)).single;
+    return userData;
+  }
 
 //To Retrieves the fuel consumption rate associated with the currently logged-in user.
-    Future<double?> getFuel() async {
-      FirebaseAuth auth = FirebaseAuth.instance;
-      User? user = auth.currentUser;
+  Future<double?> getFuel() async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user = auth.currentUser;
 
-      if (user != null) {
-        FirebaseFirestore db = FirebaseFirestore.instance;
-        DocumentSnapshot snapshot =
-            await db.collection('users').doc(user.uid).get();
+    if (user != null) {
+      FirebaseFirestore db = FirebaseFirestore.instance;
+      DocumentSnapshot snapshot =
+          await db.collection('users').doc(user.uid).get();
 
-        if (snapshot.exists) {
-          Map<String, dynamic> userData = snapshot.data() as Map<String, dynamic>;
-          dynamic fuelData = userData['fuel'];
+      if (snapshot.exists) {
+        Map<String, dynamic> userData = snapshot.data() as Map<String, dynamic>;
+        dynamic fuelData = userData['fuel'];
 
-          if (fuelData is double) {
-            // If 'fuel' field is already a double, return it directly
-            return fuelData;
-          } else if (fuelData is String) {
-            // If 'fuel' field is a String, parse it to double
-            try {
-              return double.parse(fuelData);
-            } catch (e) {
-              errorCode = 'Error parsing fuel data: $e';
-              return null;
-            }
-          } else {
-            errorCode = 'Unknown data type for fuel field: $fuelData';
+        if (fuelData is double) {
+          // If 'fuel' field is already a double, return it directly
+          return fuelData;
+        } else if (fuelData is String) {
+          // If 'fuel' field is a String, parse it to double
+          try {
+            return double.parse(fuelData);
+          } catch (e) {
+            errorCode = 'Error parsing fuel data: $e';
             return null;
           }
         } else {
-          return null; // Handle case when user document doesn't exist
+          errorCode = 'Unknown data type for fuel field: $fuelData';
+          return null;
         }
       } else {
-        return null; // Handle case when user is not logged in
+        return null; // Handle case when user document doesn't exist
       }
-    }
-
-    static Future<bool> isLoggedIn() async {
-      final prefs = await SharedPreferences.getInstance();
-      final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
-      return isLoggedIn;
+    } else {
+      return null; // Handle case when user is not logged in
     }
   }
+
+  static Future<bool> isLoggedIn() async {
+    final prefs = await SharedPreferences.getInstance();
+    final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+    return isLoggedIn;
+  }
+}

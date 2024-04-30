@@ -48,6 +48,8 @@ class SignUp extends StatelessWidget {
               labeltext: "6".tr, //Password
               iconData: Icons.password_outlined,
               mycontroller: controllerImp.password,
+              showErrorHint: true,
+              hintTextOnIconClick: '113'.tr,
             ),
             CustomeTextFormAuth(
               hinttext: "16".tr, //Confirm Password
@@ -60,6 +62,7 @@ class SignUp extends StatelessWidget {
               labeltext: '87'.tr, //Fuel
               iconData: Icons.local_gas_station,
               mycontroller: controllerImp.fuel,
+              hintTextOnIconClick: '114'.tr,
             ),
             CustomeButtonAuth(
               text: '13'.tr, //SignUp
@@ -84,9 +87,19 @@ class SignUp extends StatelessWidget {
                   return;
                 }
 
-                // Check if fuel consumption rate is a valid number
-                if (!isValidFuel(controllerImp.fuel.text)) {
-                  Get.snackbar('77'.tr, "109".tr,
+                // Check if password is strong
+                bool isPasswordStrong =
+                    isStrongPassword(controllerImp.password.text);
+                if (!isPasswordStrong) {
+                  Get.snackbar('77'.tr, "115".tr,
+                      snackPosition: SnackPosition.BOTTOM);
+                  return;
+                }
+
+                // Check if fuel consumption rate is a valid number and greater than 0
+                if (!isValidFuel(controllerImp.fuel.text) ||
+                    double.parse(controllerImp.fuel.text) <= 0) {
+                  Get.snackbar('77'.tr, "116".tr,
                       snackPosition: SnackPosition.BOTTOM);
                   return;
                 }
@@ -152,5 +165,13 @@ class SignUp extends StatelessWidget {
     } catch (e) {
       return false; // If parsing fails, return false
     }
+  }
+
+  bool isStrongPassword(String password) {
+    // Regular expression for strong password
+    // At least one uppercase letter, one lowercase letter, one digit, and at least 8 characters
+    String passwordRegex = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$';
+    RegExp regex = RegExp(passwordRegex);
+    return regex.hasMatch(password);
   }
 }

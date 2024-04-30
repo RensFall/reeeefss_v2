@@ -82,22 +82,19 @@ class Login extends StatelessWidget {
                   controllerImp.password.text,
                 );
 
-                // Handle sign-in result
                 if (signIn != null) {
-                  // Navigate to the home page
-                  Get.toNamed(AppRoute.homeNavPage);
-                } else {
-                  // Show appropriate error message based on the error code
-                  final authService = AuthService();
-                  await authService.signIn(
-                      controllerImp.email.text, controllerImp.password.text);
-                  final errorCode = authService.errorCode;
-                  if (errorCode != null) {
-                    final snackBar = SnackBar(content: Text(errorCode));
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  // Check if email is verified
+                  if (signIn.emailVerified) {
+                    // Navigate to the home page
+                    Get.toNamed(AppRoute.homeNavPage);
                   } else {
-                    print('Error code is null');
+                    // Display an error message to inform the user to verify their email
+                    Get.snackbar(
+                        '77'.tr, '112'.tr,
+                        snackPosition: SnackPosition.BOTTOM);
                   }
+                } else {
+                  print('Error code is null');
                 }
               },
             ),

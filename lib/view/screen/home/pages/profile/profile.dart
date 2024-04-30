@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:reefs_nav/view/screen/home/homepage.dart';
-import 'package:reefs_nav/view/screen/home/pages/profile/update_profile.dart';
 import 'package:reefs_nav/view/widget/navigation/nav_bar.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -95,29 +94,6 @@ class ProfileScreen extends StatelessWidget {
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
                       color: Colors.white),
-                ),
-
-                ElevatedButton.icon(
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (_) => UpdateUserProfile(userId: user.uid),
-                    ));
-                  },
-                  icon: const Icon(
-                    Icons.edit,
-                    size: 20,
-                    color: Colors.black,
-                  ),
-                  label: Text('27'.tr,
-                      style: const TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.bold)),
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 15),
-                    backgroundColor: Colors.purple,
-                    textStyle: const TextStyle(
-                        fontSize: 15, fontWeight: FontWeight.w700),
-                  ),
                 ),
                 const SizedBox(height: 5),
                 const Divider(),

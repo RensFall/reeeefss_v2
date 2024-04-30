@@ -128,6 +128,12 @@ class MyTranslation extends Translations {
           "109": "ادخل معدل استهلاك صحيح",
           "110": "ادخل الاسم الاول",
           "111": "تم بنجاح",
+          "112": "يُرجى التحقق من بريدك الإلكتروني قبل تسجيل الدخول.",
+          "113":
+              " حرف كبير واحد على الأقل، وحرف صغير واحد، ورقم واحد، و8 أحرف على الأقل",
+          "114": "إذا كنت لا تعرف معدل الاستهلاك، فقط أدخل 1",
+          "115": "كلمة المرور ضعيفة جدًا",
+          "116": "يجب أن يكون معدل استهلاك الوقود رقمًا صحيحا أكبر من 0",
         },
         "English": {
           "1": "Choose Language",
@@ -253,6 +259,12 @@ class MyTranslation extends Translations {
           "109": "Enter a valid fuel consumption rate",
           "110": "Enter first name",
           "111": "success",
+          "112": "Please verify your email before signing in.",
+          "113":
+              " At least one uppercase letter, one lowercase letter, one digit, and at least 8 characters",
+          "114": "if you dont know how much , just enter 1",
+          "115": "Password is too weak",
+          "116": "Fuel value should be a valid number greater than 0",
         }
       };
 }
