@@ -15,7 +15,6 @@ class ForgetPasswordControllerImp extends ForgetPasswordController {
       print("please enter email");
       return;
     }
-    // await FirebaseAuth.instance.sendPasswordResetEmail(email: email.text);
     Get.offNamed(AppRoute.login);
   }
 

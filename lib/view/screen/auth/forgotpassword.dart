@@ -16,6 +16,7 @@ class ForgetPassword extends StatelessWidget {
   Widget build(BuildContext context) {
     ForgetPasswordControllerImp controller =
         Get.put(ForgetPasswordControllerImp());
+    AuthService authService = AuthService();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColor.backgroundcolor,
@@ -46,14 +47,38 @@ class ForgetPassword extends StatelessWidget {
                   //Verify email button
                   text: '20'.tr,
                   onPressed: () async {
-                    final forgotpassword = await AuthService()
-                        .forgotPassword(controller.email.text);
-                    if (forgotpassword != AuthStatus.successful) {
-                      Get.offNamed(AppRoute.signup);
+                    // Check if the email field is empty
+                    if (controller.email.text.isEmpty) {
+                      // Display an error message if the email field is empty
+                      Get.snackbar('77'.tr, '9'.tr,
+                          snackPosition: SnackPosition.BOTTOM);
+                      return;
+                    }
+
+                    // Check if the entered email exists in the Firestore database
+                    final isEmailExists = await authService
+                        .checkIfEmailExists(controller.email.text);
+
+                    if (isEmailExists) {
+                      // If the email exists, send a password reset email
+                      final forgotPasswordResult = await AuthService()
+                          .forgotPassword(controller.email.text);
+
+                      if (forgotPasswordResult == AuthStatus.successful) {
+                        // Display a success message and navigate to login screen
+                        Get.snackbar('111'.tr, '105'.tr,
+                            snackPosition: SnackPosition.BOTTOM);
+                        Get.offNamed(AppRoute.login);
+                      } else {
+                        // Display an error message if failed to send verification email
+                        final snackBar =
+                            SnackBar(content: Text(forgotPasswordResult.name));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
                     } else {
-                      final snackBar =
-                          SnackBar(content: Text(forgotpassword.name));
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      // If the email doesn't exist, display an error message
+                      Get.snackbar('77'.tr, '106'.tr,
+                          snackPosition: SnackPosition.BOTTOM);
                     }
                   }),
               const SizedBox(

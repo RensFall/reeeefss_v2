@@ -151,7 +151,7 @@ class ProfileScreen extends StatelessWidget {
                         Expanded(
                           child: StreamBuilder<QuerySnapshot>(
                             stream: FirebaseFirestore.instance
-                                .collection('reports')
+                                .collection('data')
                                 .where('userId', isEqualTo: user.uid)
                                 .snapshots(),
                             builder: (context, reportsSnapshot) {

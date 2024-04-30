@@ -43,7 +43,6 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin {
       consumedFuel = totalDistanceNm / consumptionRate;
 
       // Show consumed fuel in a dialog
-      // Show consumed fuel in a dialog
       showDialog(
         context: context,
         builder: (BuildContext context) {

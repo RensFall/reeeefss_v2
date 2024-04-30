@@ -9,9 +9,10 @@ import 'package:reefs_nav/data/data-model/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService extends ChangeNotifier {
+  String errorCode = '';
+
   Future<User?> signIn(String email, String password) async {
     FirebaseAuth auth = FirebaseAuth.instance;
-
     User? user;
     try {
       UserCredential userCredential = await auth.signInWithEmailAndPassword(
@@ -26,8 +27,14 @@ class AuthService extends ChangeNotifier {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('89'.tr);
+        errorCode =
+            Get.snackbar('77'.tr, '89'.tr, snackPosition: SnackPosition.BOTTOM)
+                as String;
       } else {
         print('90'.tr);
+        errorCode =
+            Get.snackbar('77'.tr, '90'.tr, snackPosition: SnackPosition.BOTTOM)
+                as String;
       }
     }
     return user;
@@ -73,15 +80,37 @@ class AuthService extends ChangeNotifier {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('91'.tr);
+        errorCode =
+            Get.snackbar('77'.tr, '91'.tr, snackPosition: SnackPosition.BOTTOM)
+                as String;
       } else if (e.code == 'email-already-in-use') {
         print('92'.tr);
+        errorCode =
+            Get.snackbar('77'.tr, '92'.tr, snackPosition: SnackPosition.BOTTOM)
+                as String;
       }
-    } catch (e) {
-      print(e);
     }
     return user;
   }
 
+//To Check if email is exists or not 
+  Future<bool> checkIfEmailExists(String email) async {
+    
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+    try {
+      // Query Firestore to check if any document has the given email
+      QuerySnapshot querySnapshot =
+          await users.where('email', isEqualTo: email).get();
+      // If the querySnapshot is not empty, it means the email exists
+      return querySnapshot.docs.isNotEmpty;
+    } catch (e) {
+      // If an error occurs during the query, print the error and return false
+      print('Error checking email existence: $e');
+      return false;
+    }
+  }
+
+//To Send ResetPassword to user  
   Future<AuthStatus> forgotPassword(String email) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     AuthStatus _status = AuthStatus.unknown;
@@ -94,52 +123,54 @@ class AuthService extends ChangeNotifier {
     return _status;
   }
 
-  Future<UserModel> getUserDetails(String email, String userName) async {
-    FirebaseFirestore db = FirebaseFirestore.instance;
-    final snapshot = await db.collection('users').get();
-    final userData = snapshot.docs.map((e) => UserModel.fromSnapShot(e)).single;
-    return userData;
-  }
-
-  Future<double?> getFuel() async {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    User? user = auth.currentUser;
-
-    if (user != null) {
+//To display User Details in User profile
+    Future<UserModel> getUserDetails(String email, String userName) async {
       FirebaseFirestore db = FirebaseFirestore.instance;
-      DocumentSnapshot snapshot =
-          await db.collection('users').doc(user.uid).get();
+      final snapshot = await db.collection('users').get();
+      final userData = snapshot.docs.map((e) => UserModel.fromSnapShot(e)).single;
+      return userData;
+    }
 
-      if (snapshot.exists) {
-        Map<String, dynamic> userData = snapshot.data() as Map<String, dynamic>;
-        dynamic fuelData = userData['fuel'];
+//To Retrieves the fuel consumption rate associated with the currently logged-in user.
+    Future<double?> getFuel() async {
+      FirebaseAuth auth = FirebaseAuth.instance;
+      User? user = auth.currentUser;
 
-        if (fuelData is double) {
-          // If 'fuel' field is already a double, return it directly
-          return fuelData;
-        } else if (fuelData is String) {
-          // If 'fuel' field is a String, parse it to double
-          try {
-            return double.parse(fuelData);
-          } catch (e) {
-            print('Error parsing fuel data: $e');
+      if (user != null) {
+        FirebaseFirestore db = FirebaseFirestore.instance;
+        DocumentSnapshot snapshot =
+            await db.collection('users').doc(user.uid).get();
+
+        if (snapshot.exists) {
+          Map<String, dynamic> userData = snapshot.data() as Map<String, dynamic>;
+          dynamic fuelData = userData['fuel'];
+
+          if (fuelData is double) {
+            // If 'fuel' field is already a double, return it directly
+            return fuelData;
+          } else if (fuelData is String) {
+            // If 'fuel' field is a String, parse it to double
+            try {
+              return double.parse(fuelData);
+            } catch (e) {
+              errorCode = 'Error parsing fuel data: $e';
+              return null;
+            }
+          } else {
+            errorCode = 'Unknown data type for fuel field: $fuelData';
             return null;
           }
         } else {
-          print('Unknown data type for fuel field: $fuelData');
-          return null;
+          return null; // Handle case when user document doesn't exist
         }
       } else {
-        return null; // Handle case when user document doesn't exist
+        return null; // Handle case when user is not logged in
       }
-    } else {
-      return null; // Handle case when user is not logged in
+    }
+
+    static Future<bool> isLoggedIn() async {
+      final prefs = await SharedPreferences.getInstance();
+      final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+      return isLoggedIn;
     }
   }
-
-  static Future<bool> isLoggedIn() async {
-    final prefs = await SharedPreferences.getInstance();
-    final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
-    return isLoggedIn;
-  }
-}

@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:reefs_nav/core/constant/color.dart';
@@ -25,7 +23,7 @@ class Login extends StatelessWidget {
         backgroundColor: AppColor.backgroundsecond,
         elevation: 0.0,
         centerTitle: true,
-        //sing in
+        //sign in
         title: Text("11".tr,
             style: Theme.of(context)
                 .textTheme
@@ -70,16 +68,36 @@ class Login extends StatelessWidget {
             CustomeButtonAuth(
               text: '11'.tr, //signUp button
               onPressed: () async {
+                // Validate email format
+                bool isEmailValid = validateEmail(controllerImp.email.text);
+                if (!isEmailValid) {
+                  Get.snackbar('77'.tr, '107'.tr,
+                      snackPosition: SnackPosition.BOTTOM);
+                  return;
+                }
+
+                // Perform sign-in
                 final signIn = await AuthService().signIn(
-                    controllerImp.email.text, controllerImp.password.text);
-                // Check if the sign-in was successful and the user's email is verified
+                  controllerImp.email.text,
+                  controllerImp.password.text,
+                );
+
+                // Handle sign-in result
                 if (signIn != null) {
                   // Navigate to the home page
                   Get.toNamed(AppRoute.homeNavPage);
                 } else {
-                  // Show a snackbar indicating an error
-                  const snackBar = SnackBar(content: Text('Error'));
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  // Show appropriate error message based on the error code
+                  final authService = AuthService();
+                  await authService.signIn(
+                      controllerImp.email.text, controllerImp.password.text);
+                  final errorCode = authService.errorCode;
+                  if (errorCode != null) {
+                    final snackBar = SnackBar(content: Text(errorCode));
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  } else {
+                    print('Error code is null');
+                  }
                 }
               },
             ),
@@ -97,5 +115,16 @@ class Login extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  // Define the email validation function
+  bool validateEmail(String email) {
+    // Regular expression for validating email
+    // This regex checks for a valid email format
+    // It may not cover all possible cases, but it's a common and basic validation
+    String emailRegex =
+        r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$'; // Regular expression for email
+    RegExp regex = RegExp(emailRegex); // Compile the regex
+    return regex.hasMatch(email); // Check if email matches the regex
   }
 }

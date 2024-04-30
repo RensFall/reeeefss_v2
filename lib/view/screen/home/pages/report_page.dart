@@ -238,10 +238,7 @@ class _ReportPageState extends State<ReportPage> {
     String selectedMenuItem,
     Position? currentPosition,
   ) {
-    // Implement the logic to send the data to the database
     // Use the values of text1, selectedMenuItem, and currentPosition for the data you want to send
-    // You can use network requests, API calls, or any other appropriate method
-    // to send the data to the database
 
     // Example: Sending data to Firebase Firestore
     FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -252,8 +249,8 @@ class _ReportPageState extends State<ReportPage> {
       'selectedMenuItem': selectedMenuItem,
       'currentPosition': currentPosition != null
           ? {
-              'latitude': currentPosition.latitude,
-              'longitude': currentPosition.longitude,
+              'Latitude': currentPosition.latitude,
+              'Longitude': currentPosition.longitude,
             }
           : null,
     }).then((DocumentReference documentRef) {

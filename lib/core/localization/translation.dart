@@ -120,6 +120,14 @@ class MyTranslation extends Translations {
           "102": "الرئيسية",
           "103": "ستستهلك مايعادل",
           "104": "جالون",
+          "105":
+              "تحقق من بريدك الإلكتروني للحصول على رابط إعادة تعيين كلمة المرور",
+          "106": "البريد الالكتروني غير موجود",
+          "107": " البريد الإلكتروني غير صحيح",
+          "108": "كلمتي المرور غير متطابقه",
+          "109": "ادخل معدل استهلاك صحيح",
+          "110": "ادخل الاسم الاول",
+          "111": "تم بنجاح",
         },
         "English": {
           "1": "Choose Language",
@@ -238,6 +246,13 @@ class MyTranslation extends Translations {
           "102": "home",
           "103": "You will Consume ",
           "104": "gallons",
+          "105": "Check Your email for password reset link",
+          "106": "Email does not exist",
+          "107": "Invalid email address",
+          "108": "Passwords do not match",
+          "109": "Enter a valid fuel consumption rate",
+          "110": "Enter first name",
+          "111": "success",
         }
       };
 }

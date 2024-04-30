@@ -35,14 +35,14 @@ class _NavBarState extends State<NavBar> {
                   title: Text('81'.tr),
                   onTap: () {
                     // Implement language change to Arabic
-                    Get.updateLocale(Locale('Arabic', ''));
+                    Get.updateLocale(const Locale('Arabic', ''));
                   },
                 ),
                 ListTile(
                   title: Text('82'.tr),
                   onTap: () {
                     // Implement language change to English
-                    Get.updateLocale(Locale('English', ''));
+                    Get.updateLocale(const Locale('English', ''));
                   },
                 ),
               ],
@@ -95,7 +95,6 @@ class _NavBarState extends State<NavBar> {
               },
             ),
           ),
-          // Icon(Icons.logout),
         ],
       ),
     );
