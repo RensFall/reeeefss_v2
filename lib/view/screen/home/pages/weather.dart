@@ -1,12 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:location/location.dart';
 
-const String apiKey =
-    '43c44289746763d40ebd7d164fb6de78'; 
+const String apiKey = '43c44289746763d40ebd7d164fb6de78';
 const String baseUrl = 'https://api.openweathermap.org/data/2.5';
-
 
 Future<Map<String, dynamic>> fetchWeatherData(
     double latitude, double longitude) async {
@@ -20,7 +19,6 @@ Future<Map<String, dynamic>> fetchWeatherData(
     throw Exception('Failed to load weather data');
   }
 }
-
 
 class WeatherWidget extends StatefulWidget {
   @override
@@ -39,7 +37,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
 
   void fetchData() async {
     setState(() {
-      isLoading = true; 
+      isLoading = true;
     });
 
     try {
@@ -54,8 +52,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
           isLoading = false; // Hide loading spinner after fetching data
         });
       } else {
-        const Text(
-            'Could not get your current location to fetch weather data.');
+        Text('117'.tr);
         setState(() {
           isLoading = false;
         });
@@ -64,7 +61,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
     } catch (e) {
       debugPrint('Failed to get weather data: $e');
       setState(() {
-        isLoading = false; 
+        isLoading = false;
       });
     }
   }
@@ -85,7 +82,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
     if (isLoading) {
       return const Center(child: CircularProgressIndicator());
     } else if (weatherData.isEmpty) {
-      return const Center(child: Text('No weather data available.'));
+      return Center(child: Text('118'.tr));
     }
 
     var windSpeedIcon = Icons.wind_power;
@@ -103,9 +100,9 @@ class _WeatherWidgetState extends State<WeatherWidget> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                "Current weather of the area",
-                style: TextStyle(
+              Text(
+                "119".tr,
+                style: const TextStyle(
                     fontSize: 20,
                     // fontWeight: FontWeight.bold,
                     color: Colors.black),
@@ -129,7 +126,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
                       size: 24, color: Theme.of(context).primaryColor),
                   const SizedBox(width: 8),
                   Text(
-                    'Wind Direction: ${weatherData['wind']['deg']} degrees',
+                    '${"120".tr} ${weatherData['wind']['deg']} ${"121".tr}',
                     style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -143,7 +140,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
                       size: 24, color: Theme.of(context).primaryColor),
                   const SizedBox(width: 8),
                   Text(
-                    'Wind Speed: ${weatherData['wind']['speed'].toStringAsFixed(2)} km/h',
+                    '${"122".tr} ${weatherData['wind']['speed'].toStringAsFixed(2)} km/h',
                     style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -161,7 +158,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
                   ),
                   const SizedBox(width: 8.0),
                   Text(
-                    'Humidity: ${weatherData['main']['humidity']}%',
+                    '${"123".tr} ${weatherData['main']['humidity']}%',
                     style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -174,7 +171,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
                   Icon(visibility,
                       size: 24, color: Theme.of(context).primaryColor),
                   Text(
-                    '  Visibility:${formatVisibility(weatherData['visibility'])}',
+                    '  ${"124".tr} ${formatVisibility(weatherData['visibility'])}',
                     style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,

@@ -28,13 +28,11 @@ class ProfileScreen extends StatelessWidget {
 
     return Scaffold(
       endDrawer: NavBar(),
-      // floatingActionButton: const DrawerTrigger(),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       appBar: AppBar(
         title: Text('28'.tr),
         centerTitle: true,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back), // Add map icon
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.of(context).push(
               MaterialPageRoute(
@@ -98,17 +96,12 @@ class ProfileScreen extends StatelessWidget {
                 const SizedBox(height: 5),
                 const Divider(),
                 const SizedBox(height: 10),
-
-                //Bar Chart
                 Container(
-                  width:
-                      330, // Adjust the width and height to your desired size
+                  width: 330,
                   height: 230,
                   decoration: BoxDecoration(
-                    color: Colors
-                        .white, // Customize the color as per your preference
-                    borderRadius:
-                        BorderRadius.circular(10), // Set the border radius here
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -127,8 +120,10 @@ class ProfileScreen extends StatelessWidget {
                         Expanded(
                           child: StreamBuilder<QuerySnapshot>(
                             stream: FirebaseFirestore.instance
-                                .collection('data')
-                                .where('userId', isEqualTo: user.uid)
+                                .collection('users')
+                                .doc(currentUserId)
+                                .collection('reports')
+                                .orderBy('timestamp', descending: true)
                                 .snapshots(),
                             builder: (context, reportsSnapshot) {
                               if (reportsSnapshot.connectionState ==
@@ -138,28 +133,48 @@ class ProfileScreen extends StatelessWidget {
                                 );
                               }
 
+                              if (reportsSnapshot.hasError) {
+                                return Center(
+                                  child: Text(
+                                      '${"99".tr} ${reportsSnapshot.error}'),
+                                );
+                              }
+
                               if (!reportsSnapshot.hasData ||
-                                  reportsSnapshot.data!.docs.isEmpty) {
+                                  reportsSnapshot.data == null) {
                                 return Center(
                                   child: Text('100'.tr),
                                 );
                               }
 
+                              var data = reportsSnapshot.data!;
+                              if (data.docs.isEmpty) {
+                                return Center(
+                                  child: Text('100'.tr),
+                                );
+                              }
                               return ListView(
                                 children:
                                     reportsSnapshot.data!.docs.map((reportDoc) {
                                   var reportData =
                                       reportDoc.data() as Map<String, dynamic>;
                                   String reportTitle =
-                                      reportData['reportTitle'];
-                                  String reportDescription =
-                                      reportData['reportDescription'];
-                                  // You can extract other fields as necessary
+                                      reportData['textFieldValue'] ?? '';
+                                  String selectedMenuItem =
+                                      reportData['selectedMenuItem'] ?? '';
+                                  Map<String, dynamic>? currentPosition =
+                                      reportData['currentPosition']
+                                          as Map<String, dynamic>?;
+
+                                  double? latitude =
+                                      currentPosition?['latitude'];
+                                  double? longitude =
+                                      currentPosition?['longitude'];
 
                                   return ListTile(
                                     title: Text(reportTitle),
-                                    subtitle: Text(reportDescription),
-                                    // Display additional information as needed
+                                    subtitle: Text(selectedMenuItem),
+                                    // Display additional information if needed
                                   );
                                 }).toList(),
                               );

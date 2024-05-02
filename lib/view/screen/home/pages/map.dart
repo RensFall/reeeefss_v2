@@ -41,7 +41,6 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin {
     if (consumptionRate != null) {
       double totalDistanceNm = calculateTotalDistance(points);
       consumedFuel = totalDistanceNm / consumptionRate;
-
       // Show consumed fuel in a dialog
       showDialog(
         context: context,
@@ -197,7 +196,7 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Container(
-            margin: const EdgeInsets.only(bottom: 5.0, right: 10.0),
+            margin: const EdgeInsets.only(bottom: 5.0, right: 9.0),
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
               color: Color(0xFF262626),

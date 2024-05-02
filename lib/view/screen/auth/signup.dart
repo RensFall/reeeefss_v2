@@ -121,8 +121,6 @@ class SignUp extends StatelessWidget {
 
                 if (signUp != null) {
                   Get.toNamed(AppRoute.login);
-                } else {
-                  AuthService().errorCode;
                 }
               },
             ),

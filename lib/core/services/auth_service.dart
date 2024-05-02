@@ -20,22 +20,14 @@ class AuthService extends ChangeNotifier {
         password: password,
       );
       user = userCredential.user;
-
-      // Store authentication state
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setBool('isLoggedIn', true);
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print('89'.tr);
-        errorCode =
-            Get.snackbar('77'.tr, '89'.tr, snackPosition: SnackPosition.BOTTOM)
-                as String;
+      if (e.code == 'too-many-requests') {
+        Get.snackbar('77'.tr, '126'.tr, snackPosition: SnackPosition.BOTTOM);
       } else {
-        print('90'.tr);
-        errorCode =
-            Get.snackbar('77'.tr, '90'.tr, snackPosition: SnackPosition.BOTTOM)
-                as String;
+        Get.snackbar('77'.tr, '125'.tr, snackPosition: SnackPosition.BOTTOM);
       }
+    } catch (e) {
+      print(e);
     }
     return user;
   }
@@ -84,14 +76,12 @@ class AuthService extends ChangeNotifier {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('91'.tr);
-        errorCode =
-            Get.snackbar('77'.tr, '91'.tr, snackPosition: SnackPosition.BOTTOM)
-                as String;
+        errorCode = '91'.tr;
+        Get.snackbar('77'.tr, '91'.tr, snackPosition: SnackPosition.BOTTOM);
       } else if (e.code == 'email-already-in-use') {
         print('92'.tr);
-        errorCode =
-            Get.snackbar('77'.tr, '92'.tr, snackPosition: SnackPosition.BOTTOM)
-                as String;
+        errorCode = '92'.tr;
+        Get.snackbar('77'.tr, '92'.tr, snackPosition: SnackPosition.BOTTOM);
       }
     }
     return user;
@@ -173,7 +163,7 @@ class AuthService extends ChangeNotifier {
 
   static Future<bool> isLoggedIn() async {
     final prefs = await SharedPreferences.getInstance();
-    final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+    final isLoggedIn = prefs.getBool('isLoggedIn') ?? true;
     return isLoggedIn;
   }
 }

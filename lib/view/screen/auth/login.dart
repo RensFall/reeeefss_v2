@@ -66,7 +66,7 @@ class Login extends StatelessWidget {
               ),
             ),
             CustomeButtonAuth(
-              text: '11'.tr, //signUp button
+              text: '11'.tr, //login button
               onPressed: () async {
                 // Validate email format
                 bool isEmailValid = validateEmail(controllerImp.email.text);
@@ -83,21 +83,13 @@ class Login extends StatelessWidget {
                 );
 
                 if (signIn != null) {
-                  // Check if email is verified
-                  if (signIn.emailVerified) {
-                    // Navigate to the home page
-                    Get.toNamed(AppRoute.homeNavPage);
-                  } else {
-                    // Display an error message to inform the user to verify their email
-                    Get.snackbar(
-                        '77'.tr, '112'.tr,
-                        snackPosition: SnackPosition.BOTTOM);
-                  }
-                } else {
-                  print('Error code is null');
+                  // Navigate to the home page
+                  Get.toNamed(AppRoute.homeNavPage);
+                  disableBackButton(context);
                 }
               },
             ),
+
             const SizedBox(
               height: 30,
             ),
@@ -123,5 +115,10 @@ class Login extends StatelessWidget {
         r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$'; // Regular expression for email
     RegExp regex = RegExp(emailRegex); // Compile the regex
     return regex.hasMatch(email); // Check if email matches the regex
+  }
+
+  void disableBackButton(BuildContext context) {
+    Navigator.of(context).pushNamedAndRemoveUntil(
+        AppRoute.homeNavPage, (Route<dynamic> route) => false);
   }
 }

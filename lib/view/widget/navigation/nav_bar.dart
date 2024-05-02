@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:reefs_nav/view/screen/auth/login.dart';
 import 'package:reefs_nav/core/services/tileManager/map_cache_manger.dart';
 
+import '../../../core/localization/changelocalization.dart';
+
 class NavBar extends StatefulWidget {
   @override
   _NavBarState createState() => _NavBarState();
@@ -34,15 +36,15 @@ class _NavBarState extends State<NavBar> {
                 ListTile(
                   title: Text('81'.tr),
                   onTap: () {
-                    // Implement language change to Arabic
-                    Get.updateLocale(const Locale('Arabic', ''));
+                    Get.find<LocalController>()
+                        .changeLang('Arabic'); // Change language to Arabic
                   },
                 ),
                 ListTile(
                   title: Text('82'.tr),
                   onTap: () {
-                    // Implement language change to English
-                    Get.updateLocale(const Locale('English', ''));
+                    Get.find<LocalController>()
+                        .changeLang('English'); // Change language to english
                   },
                 ),
               ],

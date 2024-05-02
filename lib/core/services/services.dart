@@ -8,7 +8,6 @@ class MyServices extends GetxService {
     return this;
   }
 }
-
 initialService() async {
   await Get.putAsync(() => MyServices().init());
   //synchronous function responsible
