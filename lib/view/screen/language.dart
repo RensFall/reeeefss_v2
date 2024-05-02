@@ -15,10 +15,10 @@ class Language extends GetView<LocalController> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("1".tr, style: Theme.of(context).textTheme.bodyLarge),
+            Text("English/عربية", style: Theme.of(context).textTheme.bodyLarge),
             const SizedBox(height: 20),
             CustomeButtonLang(
-              textButton: "Arabic",
+              textButton: "العربية",
               onPressed: () {
                 controller.changeLang("Arabic");
                 Get.toNamed(AppRoute.onBoarding);

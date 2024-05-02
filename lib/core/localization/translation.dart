@@ -279,7 +279,7 @@ class MyTranslation extends Translations {
           "122": "Wind Speed:",
           "123": "Humidity:",
           "124": "Visibility:",
-          "125": "An error occurred. Please try again ",
+          "125": "An error occurred. Please try again",
           "126": "Too many attempts. Please try again later.",
           "127": "Your Current Location:",
           "128": "Latitude:",
