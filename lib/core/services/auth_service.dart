@@ -162,9 +162,14 @@ class AuthService extends ChangeNotifier {
     }
   }
 
+  static Future<void> setLoggedIn(bool isLoggedIn) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isLoggedIn', isLoggedIn);
+  }
+
   static Future<bool> isLoggedIn() async {
     final prefs = await SharedPreferences.getInstance();
-    final isLoggedIn = prefs.getBool('isLoggedIn') ?? true;
+    final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
     return isLoggedIn;
   }
 }

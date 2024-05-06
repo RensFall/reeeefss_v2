@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:reefs_nav/view/screen/auth/login.dart';
 import 'package:reefs_nav/core/services/tileManager/map_cache_manger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/localization/changelocalization.dart';
 
@@ -92,7 +94,15 @@ class _NavBarState extends State<NavBar> {
             child: ListTile(
               title: Text("26".tr),
               leading: const Icon(Icons.exit_to_app),
-              onTap: () {
+              onTap: () async {
+                // Clear user credentials from SharedPreferences
+                final FirebaseAuth auth = FirebaseAuth.instance;
+                auth.signOut();
+                final prefs = await SharedPreferences.getInstance();
+                await prefs.remove('email');
+                await prefs.remove('password');
+
+                // Navigate to the login screen
                 Get.offAll(const Login());
               },
             ),

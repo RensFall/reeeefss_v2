@@ -149,7 +149,8 @@ class MyTranslation extends Translations {
           "133": "تم حفظ التقرير بالجهاز",
           "134": "تسجيل الدخول مطلوب لارسال التقرير",
           "135": "الرجاء تعبئة جميع الخانات صحيحا ",
-          "136": "مدخلات خاطئة"
+          "136": "مدخلات خاطئة",
+          "137": "أحفظ تسجيل دخولي"
         },
         "English": {
           "1": "Choose Language",
@@ -295,7 +296,11 @@ class MyTranslation extends Translations {
           "133": "Report saved locally.",
           "134": "You need to sign in to submit a report",
           "135": "Please fill all required fields correctly",
-          "136": "Invalid input",
+          "136": "invalid input",
+          "137": "Keep me logged in",
+          "138": "",
+          "139": "",
+          "140": "",
         }
       };
 }

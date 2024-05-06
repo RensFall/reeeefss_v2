@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:reefs_nav/core/constant/color.dart';
 import 'package:reefs_nav/core/constant/routes.dart';
 import 'package:reefs_nav/core/services/auth_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../controller/auth/logincontroller.dart';
 import '../../widget/auth/customebuttonauth.dart';
 import '../../widget/auth/custometextbodyauth.dart';
@@ -16,14 +17,13 @@ class Login extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LoginControllerImp controllerImp = Get.put(LoginControllerImp());
+    final LoginControllerImp controllerImp = Get.put(LoginControllerImp());
     controllerImp.setContext(context); // Set the context in the controller
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColor.backgroundsecond,
         elevation: 0.0,
         centerTitle: true,
-        //sign in
         title: Text("11".tr,
             style: Theme.of(context)
                 .textTheme
@@ -55,15 +55,40 @@ class Login extends StatelessWidget {
               labeltext: "6".tr, //pass
               iconData: Icons.password_outlined,
             ),
-            InkWell(
-              onTap: () {
-                controllerImp.goToForgetPass();
-              },
-              child: Text(
-                //forget password
-                "10".tr,
-                textAlign: TextAlign.end,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment
+                  .spaceBetween, // Align items with equal space between them
+              children: [
+                Row(
+                  children: [
+                    Obx(() => Checkbox(
+                          value: controllerImp.saveMe.value,
+                          onChanged: (value) {
+                            controllerImp.saveMe.value = value!;
+                            if (value) {
+                              // Save user credentials when checkbox is checked
+                              saveCredentials(controllerImp.email.text,
+                                  controllerImp.password.text);
+                            } else {
+                              // Clear saved credentials when checkbox is unchecked
+                              clearCredentials();
+                            }
+                          },
+                        )),
+                    Text("137".tr),
+                  ],
+                ),
+                InkWell(
+                  onTap: () {
+                    controllerImp.goToForgetPass();
+                  },
+                  child: Text(
+                    //forget password
+                    "10".tr,
+                    textAlign: TextAlign.end,
+                  ),
+                ),
+              ],
             ),
             CustomeButtonAuth(
               text: '11'.tr, //login button
@@ -101,11 +126,14 @@ class Login extends StatelessWidget {
             ),
             SizedBox(height: 10), // Add some space
             TextButton(
-              onPressed: () {
+              onPressed: () async {
+                // Clear user credentials when the skip button is pressed
+                await clearCredentials(); // Make sure to await here
+                // Navigate to the home page
                 Get.toNamed(AppRoute.homeNavPage);
               },
               child: Text(
-                '132  '.tr,
+                '132'.tr, //skip button
                 style: TextStyle(
                   color: Colors.blue,
                   fontWeight: FontWeight.bold,
@@ -132,5 +160,25 @@ class Login extends StatelessWidget {
   void disableBackButton(BuildContext context) {
     Navigator.of(context).pushNamedAndRemoveUntil(
         AppRoute.homeNavPage, (Route<dynamic> route) => false);
+  }
+
+  Future<void> saveCredentials(String email, String password) async {
+    // Store user credentials in shared preferences
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('email', email);
+    await prefs.setString('password', password);
+  }
+
+  Future<void> clearCredentials() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove('email');
+      await prefs.remove('password');
+      // Clear the saveMe checkbox status as well
+      final loginController = Get.find<LoginControllerImp>();
+      loginController.saveMe.value = false;
+    } catch (error) {
+      print("Error clearing credentials: $error");
+    }
   }
 }

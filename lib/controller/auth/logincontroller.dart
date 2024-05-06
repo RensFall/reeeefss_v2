@@ -13,6 +13,7 @@ class LoginControllerImp extends LoginController {
   late TextEditingController email;
   late TextEditingController password;
   late BuildContext context; // Storing context locally
+  final RxBool saveMe = false.obs;
 
   @override
   void onInit() {

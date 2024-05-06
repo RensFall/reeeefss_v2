@@ -22,5 +22,4 @@ List<GetPage<dynamic>>? routes = [
   //UserPage
   // GetPage(
   GetPage(name: AppRoute.profileScreen, page: () => const ProfileScreen()),
-  GetPage(name: AppRoute.login, page: () => const Login()),
 ];
