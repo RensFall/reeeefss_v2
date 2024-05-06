@@ -89,7 +89,6 @@ class Login extends StatelessWidget {
                 }
               },
             ),
-
             const SizedBox(
               height: 30,
             ),
@@ -99,7 +98,20 @@ class Login extends StatelessWidget {
               onTap: () {
                 controllerImp.goToSignUp();
               },
-            )
+            ),
+            SizedBox(height: 10), // Add some space
+            TextButton(
+              onPressed: () {
+                Get.toNamed(AppRoute.homeNavPage);
+              },
+              child: Text(
+                '132  '.tr,
+                style: TextStyle(
+                  color: Colors.blue,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
           ],
         ),
       ),

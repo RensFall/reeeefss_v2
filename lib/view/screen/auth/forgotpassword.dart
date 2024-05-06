@@ -34,13 +34,13 @@ class ForgetPassword extends StatelessWidget {
           child: ListView(
             children: [
               const SizedBox(height: 30),
-              CustomeTextTitleAuth(text: "21".tr), //welcomeback
+              CustomeTextTitleAuth(text: "21".tr), //check email
               const SizedBox(height: 100),
               CustomeTextFormAuth(
                 //Phone number field
                 hinttext: "5".tr, //enter email
                 labeltext: "4".tr, //email
-                iconData: Icons.phone_outlined,
+                iconData: Icons.email_outlined,
                 mycontroller: controller.email,
               ),
               CustomeButtonAuth(

@@ -220,7 +220,7 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin {
               icon: const Icon(Icons.my_location_outlined),
               color: Colors.white,
               onPressed: () {
-                _fetchCurrentLocation();
+                _fetchCurrentLocation(); 
               },
             ),
           ),

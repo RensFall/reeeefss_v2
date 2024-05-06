@@ -46,7 +46,7 @@ class MyTranslation extends Translations {
           "41": "صفحة المستخدم",
           "42": "هنا تجد تفاصيل معلوماتك الخاصة والتقارير التي أرسلتها",
           "43": "لم يتم العثور على بيانات المستخدم.",
-          "44": "لم يقوم المستخدم بتسجيل الدخول",
+          "44": "لم يقم المستخدم بتسجيل الدخول",
           "45": "اسم المستخدم",
           "46": "أدخل اسم المستخدم",
           "47": "حفظ",
@@ -141,10 +141,15 @@ class MyTranslation extends Translations {
           "126":
               "تجاوزت الحد المسموح للمحاولات الان . الرجاء إعادة المحاولة لاحقًا.",
           "127": "موقعك الحالي هو: ",
-          "128":"خط الطول : ",
-          "129":"خط العرض : ",
-          "130":"تم ارسال التقرير بنجاح",
-          "131":"فشل ارسال التقرير",
+          "128": "خط الطول : ",
+          "129": "خط العرض : ",
+          "130": "تم ارسال التقرير بنجاح",
+          "131": "فشل ارسال التقرير",
+          "132": "تخطي ",
+          "133": "تم حفظ التقرير بالجهاز",
+          "134": "تسجيل الدخول مطلوب لارسال التقرير",
+          "135": "الرجاء تعبئة جميع الخانات صحيحا ",
+          "136": "مدخلات خاطئة"
         },
         "English": {
           "1": "Choose Language",
@@ -284,8 +289,13 @@ class MyTranslation extends Translations {
           "127": "Your Current Location:",
           "128": "Latitude:",
           "129": "Longitude:",
-          "130":"Report submitted successfully",
-          "131":"Failed to submit report",
+          "130": "Report submitted successfully",
+          "131": "Failed to submit report",
+          "132": "Skip ",
+          "133": "Report saved locally.",
+          "134": "You need to sign in to submit a report",
+          "135": "Please fill all required fields correctly",
+          "136": "Invalid input",
         }
       };
 }

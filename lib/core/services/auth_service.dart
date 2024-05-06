@@ -71,16 +71,17 @@ class AuthService extends ChangeNotifier {
             'email': email,
             'fuel': fuel,
           });
+          Get.snackbar('111'.tr, '112'.tr, snackPosition: SnackPosition.BOTTOM);
         }
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('91'.tr);
-        errorCode = '91'.tr;
+        // errorCode = '91'.tr;
         Get.snackbar('77'.tr, '91'.tr, snackPosition: SnackPosition.BOTTOM);
       } else if (e.code == 'email-already-in-use') {
         print('92'.tr);
-        errorCode = '92'.tr;
+        // errorCode = '92'.tr;
         Get.snackbar('77'.tr, '92'.tr, snackPosition: SnackPosition.BOTTOM);
       }
     }

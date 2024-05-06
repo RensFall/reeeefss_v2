@@ -48,7 +48,7 @@ class _ReportPageState extends State<ReportPage> {
               },
               decoration: InputDecoration(
                 hintText: '50'.tr,
-                errorText: isInvalidInput ? 'Invalid input' : null,
+                errorText: isInvalidInput ? '136'.tr : null,
               ),
             ),
             DropdownButtonFormField<String>(
@@ -86,19 +86,26 @@ class _ReportPageState extends State<ReportPage> {
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () async {
+                // Check if input is invalid or any required field is null
                 if (isInvalidInput ||
                     selectedMenuItem == null ||
-                    currentPosition == null) {
+                    textFieldController1.text.isEmpty) {
+                  // Show error snackbar
+                  Get.snackbar('77'.tr, '135'.tr,
+                      snackPosition: SnackPosition.BOTTOM);
+                  return;
+                }
+
+                final User? user = FirebaseAuth.instance.currentUser;
+                if (user == null) {
+                  // User not authenticated
+                  // Show error snackbar
+                  Get.snackbar('111'.tr, '134'.tr,
+                      snackPosition: SnackPosition.BOTTOM);
                   return;
                 }
 
                 try {
-                  final User? user = FirebaseAuth.instance.currentUser;
-                  if (user == null) {
-                    // User not authenticated
-                    return;
-                  }
-
                   final record = {
                     'textFieldValue': textFieldController1.text,
                     'selectedMenuItem': selectedMenuItem,
@@ -111,7 +118,10 @@ class _ReportPageState extends State<ReportPage> {
                       await Connectivity().checkConnectivity();
                   if (connectivityResult == ConnectivityResult.none) {
                     await _saveToOfflineStorage(record);
+                    Get.snackbar('111'.tr, '133'.tr,
+                        snackPosition: SnackPosition.BOTTOM);
                     print('Report saved locally.');
+
                     return;
                   }
 
