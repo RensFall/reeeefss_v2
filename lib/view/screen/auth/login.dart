@@ -56,8 +56,7 @@ class Login extends StatelessWidget {
               iconData: Icons.password_outlined,
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment
-                  .spaceBetween, // Align items with equal space between them
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
                   children: [
@@ -67,8 +66,10 @@ class Login extends StatelessWidget {
                             controllerImp.saveMe.value = value!;
                             if (value) {
                               // Save user credentials when checkbox is checked
-                              saveCredentials(controllerImp.email.text,
-                                  controllerImp.password.text);
+                              saveCredentials(
+                                controllerImp.email.text,
+                                controllerImp.password.text,
+                              );
                             } else {
                               // Clear saved credentials when checkbox is unchecked
                               clearCredentials();
@@ -114,31 +115,33 @@ class Login extends StatelessWidget {
                 }
               },
             ),
-            const SizedBox(
-              height: 30,
-            ),
-            TextSignUpIn(
-              textone: "12".tr, //no account field
-              texttwo: "13".tr, //SignUp
-              onTap: () {
-                controllerImp.goToSignUp();
-              },
-            ),
-            SizedBox(height: 10), // Add some space
-            TextButton(
-              onPressed: () async {
-                // Clear user credentials when the skip button is pressed
-                await clearCredentials(); // Make sure to await here
-                // Navigate to the home page
-                Get.toNamed(AppRoute.homeNavPage);
-              },
-              child: Text(
-                '132'.tr, //skip button
-                style: TextStyle(
-                  color: Colors.blue,
-                  fontWeight: FontWeight.bold,
+            const SizedBox(height: 30),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextSignUpIn(
+                  textone: "12".tr, //no account field
+                  texttwo: "13".tr, //SignUp
+                  onTap: () {
+                    controllerImp.goToSignUp();
+                  },
                 ),
-              ),
+                TextButton(
+                  onPressed: () async {
+                    // Clear user credentials when the skip button is pressed
+                    await clearCredentials(); // Make sure to await here
+                    // Navigate to the home page
+                    Get.toNamed(AppRoute.homeNavPage);
+                  },
+                  child: Text(
+                    '132'.tr, //skip button
+                    style: TextStyle(
+                      color: AppColor.primarypurple,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

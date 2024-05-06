@@ -100,7 +100,7 @@ class _ReportPageState extends State<ReportPage> {
                 if (user == null) {
                   // User not authenticated
                   // Show error snackbar
-                  Get.snackbar('111'.tr, '134'.tr,
+                  Get.snackbar('77'.tr, '134'.tr,
                       snackPosition: SnackPosition.BOTTOM);
                   return;
                 }
