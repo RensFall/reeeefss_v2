@@ -7,6 +7,8 @@ import 'package:reefs_nav/core/Exception_handler/exception_handler.dart';
 import 'package:reefs_nav/core/constant/enum.dart';
 import 'package:reefs_nav/data/data-model/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:bcrypt/bcrypt.dart';
+
 
 class AuthService extends ChangeNotifier {
   String errorCode = '';
@@ -33,60 +35,56 @@ class AuthService extends ChangeNotifier {
   }
 
   Future<User?> signUp(
-    String email,
-    String password,
-    String userName,
-    String fuel,
-  ) async {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    User? user;
-    try {
-      UserCredential userCredential = await auth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      user = userCredential.user;
+  String email,
+  String password,
+  String userName,
+  String fuel,
+) async {
+  FirebaseAuth auth = FirebaseAuth.instance;
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  User? user;
+  try {
+    // Hash the password using bcrypt
+    String hashedPassword = await hashPassword(password);
 
-      if (user != null) {
-        // Send email verification
-        await user.sendEmailVerification();
+    UserCredential userCredential = await auth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    user = userCredential.user;
 
-        final QuerySnapshot result = await firebaseFirestore
-            .collection('users')
-            .where(
-              'id',
-              isEqualTo: user.uid,
-            )
-            .get();
-        final List<DocumentSnapshot> documents = result.docs;
+    if (user != null) {
+      // Send email verification
+      await user.sendEmailVerification();
 
-        if (documents.isEmpty) {
-          firebaseFirestore.collection('users').doc(user.uid).set({
-            'userName': userName,
-            'photoUrl': user.photoURL,
-            'id': user.uid,
-            'password': password,
-            'createAte': DateTime.now().millisecondsSinceEpoch.toString(),
-            'email': email,
-            'fuel': fuel,
-          });
-          Get.snackbar('111'.tr, '112'.tr, snackPosition: SnackPosition.BOTTOM);
-        }
-      }
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        print('91'.tr);
-        // errorCode = '91'.tr;
-        Get.snackbar('77'.tr, '91'.tr, snackPosition: SnackPosition.BOTTOM);
-      } else if (e.code == 'email-already-in-use') {
-        print('92'.tr);
-        // errorCode = '92'.tr;
-        Get.snackbar('77'.tr, '92'.tr, snackPosition: SnackPosition.BOTTOM);
-      }
+      firebaseFirestore.collection('users').doc(user.uid).set({
+        'userName': userName,
+        'photoUrl': user.photoURL,
+        'id': user.uid,
+        'password': hashedPassword, // Store hashed password instead of plaintext
+        'createAte': DateTime.now().millisecondsSinceEpoch.toString(),
+        'email': email,
+        'fuel': fuel,
+      });
+      Get.snackbar('111'.tr, '112'.tr, snackPosition: SnackPosition.BOTTOM);
     }
-    return user;
+  } on FirebaseAuthException catch (e) {
+    if (e.code == 'weak-password') {
+      Get.snackbar('77'.tr, '91'.tr, snackPosition: SnackPosition.BOTTOM);
+    } else if (e.code == 'email-already-in-use') {
+      Get.snackbar('77'.tr, '92'.tr, snackPosition: SnackPosition.BOTTOM);
+    }
+    print('Error during sign up: ${e.message}');
+  } catch (e) {
+    print('Unexpected error during sign up: $e');
   }
+  return user;
+}
+
+Future<String> hashPassword(String password) async {
+  String hashedPassword = await BCrypt.hashpw(password, BCrypt.gensalt());
+  return hashedPassword;
+}
 
 //To Check if email is exists or not
   Future<bool> checkIfEmailExists(String email) async {
