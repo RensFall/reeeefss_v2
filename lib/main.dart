@@ -70,19 +70,21 @@ class MyApp extends StatelessWidget {
           displayLarge: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 22,
-            color: AppColor.white,
+            color: AppColor.backgroundsecond,
           ),
           displayMedium: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 26, color: AppColor.white),
+              fontWeight: FontWeight.bold,
+              fontSize: 26,
+              color: AppColor.backgroundsecond),
           bodyLarge: TextStyle(
             height: 2,
-            color: AppColor.white,
+            color: AppColor.backgroundsecond,
             fontWeight: FontWeight.bold,
             fontSize: 14,
           ),
           bodyMedium: TextStyle(
             height: 2,
-            color: Color.fromARGB(255, 172, 170, 170),
+            color: AppColor.backgroundsecond,
             fontSize: 14,
           ),
         ),
